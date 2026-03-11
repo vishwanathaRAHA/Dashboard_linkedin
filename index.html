@@ -1,0 +1,3826 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Claims Analytics Dashboard (Demo Data)</title>
+    
+    <!-- Data injected from Apps Script -->
+    <script>
+        // Dummy dashboard data - 150 sample claims
+        const rawData = [
+            {
+                "claimId": "CLM001",
+                "employeeCode": "EMP001",
+                "employeeName": "Rajesh Kumar",
+                "relation": "Self",
+                "disease": "Fever",
+                "hospital": "Apollo Hospital",
+                "claimType": "Reimbursement",
+                "claimedAmount": 15000,
+                "totalAmount": 14500,
+                "paidAmount": 14500,
+                "outstandingAmount": 0,
+                "category": "Settled",
+                "sumInsured": 300000
+            },
+            {
+                "claimId": "CLM002",
+                "employeeCode": "EMP002",
+                "employeeName": "Priya Sharma",
+                "relation": "Spouse",
+                "disease": "Diabetes",
+                "hospital": "Fortis Hospital",
+                "claimType": "Cashless",
+                "claimedAmount": 85000,
+                "totalAmount": 82000,
+                "paidAmount": 82000,
+                "outstandingAmount": 0,
+                "category": "Settled",
+                "sumInsured": 500000
+            },
+            {
+                "claimId": "CLM003",
+                "employeeCode": "EMP003",
+                "employeeName": "Amit Patel",
+                "relation": "Father",
+                "disease": "Heart Surgery",
+                "hospital": "Max Healthcare",
+                "claimType": "Cashless",
+                "claimedAmount": 450000,
+                "totalAmount": 425000,
+                "paidAmount": 325000,
+                "outstandingAmount": 100000,
+                "category": "In Process",
+                "sumInsured": 300000
+            },
+            {
+                "claimId": "CLM004",
+                "employeeCode": "EMP004",
+                "employeeName": "Sunita Reddy",
+                "relation": "Self",
+                "disease": "Accident",
+                "hospital": "Manipal Hospital",
+                "claimType": "Cashless",
+                "claimedAmount": 125000,
+                "totalAmount": 120000,
+                "paidAmount": 120000,
+                "outstandingAmount": 0,
+                "category": "Settled",
+                "sumInsured": 500000
+            },
+            {
+                "claimId": "CLM005",
+                "employeeCode": "EMP005",
+                "employeeName": "Vikram Singh",
+                "relation": "Daughter",
+                "disease": "Fever",
+                "hospital": "AIIMS",
+                "claimType": "Reimbursement",
+                "claimedAmount": 12000,
+                "totalAmount": 11000,
+                "paidAmount": 11000,
+                "outstandingAmount": 0,
+                "category": "Settled",
+                "sumInsured": 300000
+            },
+            {
+                "claimId": "CLM006",
+                "employeeCode": "EMP006",
+                "employeeName": "Anjali Gupta",
+                "relation": "Mother",
+                "disease": "Hypertension",
+                "hospital": "Apollo Hospital",
+                "claimType": "Reimbursement",
+                "claimedAmount": 28000,
+                "totalAmount": 25000,
+                "paidAmount": 25000,
+                "outstandingAmount": 0,
+                "category": "Settled",
+                "sumInsured": 300000
+            },
+            {
+                "claimId": "CLM007",
+                "employeeCode": "EMP007",
+                "employeeName": "Suresh Nair",
+                "relation": "Spouse",
+                "disease": "Pregnancy",
+                "hospital": "Fortis Hospital",
+                "claimType": "Cashless",
+                "claimedAmount": 95000,
+                "totalAmount": 90000,
+                "paidAmount": 0,
+                "outstandingAmount": 90000,
+                "category": "In Process",
+                "sumInsured": 500000
+            },
+            {
+                "claimId": "CLM008",
+                "employeeCode": "EMP008",
+                "employeeName": "Meera Krishnan",
+                "relation": "Self",
+                "disease": "Dental",
+                "hospital": "Clove Dental",
+                "claimType": "Reimbursement",
+                "claimedAmount": 35000,
+                "totalAmount": 30000,
+                "paidAmount": 0,
+                "outstandingAmount": 30000,
+                "category": "In Process",
+                "sumInsured": 300000
+            },
+            {
+                "claimId": "CLM009",
+                "employeeCode": "EMP009",
+                "employeeName": "Rahul Verma",
+                "relation": "Son",
+                "disease": "Asthma",
+                "hospital": "Max Healthcare",
+                "claimType": "Reimbursement",
+                "claimedAmount": 22000,
+                "totalAmount": 20000,
+                "paidAmount": 20000,
+                "outstandingAmount": 0,
+                "category": "Settled",
+                "sumInsured": 300000
+            },
+            {
+                "claimId": "CLM010",
+                "employeeCode": "EMP010",
+                "employeeName": "Neha Kapoor",
+                "relation": "Self",
+                "disease": "Thyroid",
+                "hospital": "Manipal Hospital",
+                "claimType": "Reimbursement",
+                "claimedAmount": 18000,
+                "totalAmount": 15000,
+                "paidAmount": 15000,
+                "outstandingAmount": 0,
+                "category": "Settled",
+                "sumInsured": 300000
+            },
+            {
+                "claimId": "CLM011",
+                "employeeCode": "EMP011",
+                "employeeName": "Arjun Mehta",
+                "relation": "Father",
+                "disease": "Cancer",
+                "hospital": "Tata Memorial",
+                "claimType": "Cashless",
+                "claimedAmount": 850000,
+                "totalAmount": 800000,
+                "paidAmount": 500000,
+                "outstandingAmount": 300000,
+                "category": "In Process",
+                "sumInsured": 500000
+            },
+            {
+                "claimId": "CLM012",
+                "employeeCode": "EMP012",
+                "employeeName": "Deepa Iyer",
+                "relation": "Spouse",
+                "disease": "Knee Replacement",
+                "hospital": "Apollo Hospital",
+                "claimType": "Cashless",
+                "claimedAmount": 280000,
+                "totalAmount": 250000,
+                "paidAmount": 250000,
+                "outstandingAmount": 0,
+                "category": "Settled",
+                "sumInsured": 500000
+            },
+            {
+                "claimId": "CLM013",
+                "employeeCode": "EMP013",
+                "employeeName": "Manoj Joshi",
+                "relation": "Self",
+                "disease": "Fever",
+                "hospital": "Fortis Hospital",
+                "claimType": "Reimbursement",
+                "claimedAmount": 8000,
+                "totalAmount": 7500,
+                "paidAmount": 7500,
+                "outstandingAmount": 0,
+                "category": "Settled",
+                "sumInsured": 300000
+            },
+            {
+                "claimId": "CLM014",
+                "employeeCode": "EMP014",
+                "employeeName": "Pooja Desai",
+                "relation": "Daughter",
+                "disease": "Viral Infection",
+                "hospital": "Max Healthcare",
+                "claimType": "Reimbursement",
+                "claimedAmount": 15000,
+                "totalAmount": 12000,
+                "paidAmount": 12000,
+                "outstandingAmount": 0,
+                "category": "Settled",
+                "sumInsured": 300000
+            },
+            {
+                "claimId": "CLM015",
+                "employeeCode": "EMP015",
+                "employeeName": "Sanjay Bose",
+                "relation": "Self",
+                "disease": "Diabetes",
+                "hospital": "Manipal Hospital",
+                "claimType": "Reimbursement",
+                "claimedAmount": 45000,
+                "totalAmount": 40000,
+                "paidAmount": 0,
+                "outstandingAmount": 0,
+                "category": "Denied",
+                "sumInsured": 300000
+            },
+            {
+                "claimId": "CLM016",
+                "employeeCode": "EMP016",
+                "employeeName": "Kavita Malhotra",
+                "relation": "Mother",
+                "disease": "Cataract",
+                "hospital": "AIIMS",
+                "claimType": "Cashless",
+                "claimedAmount": 55000,
+                "totalAmount": 50000,
+                "paidAmount": 50000,
+                "outstandingAmount": 0,
+                "category": "Settled",
+                "sumInsured": 500000
+            },
+            {
+                "claimId": "CLM017",
+                "employeeCode": "EMP017",
+                "employeeName": "Vivek Anand",
+                "relation": "Son",
+                "disease": "Allergy",
+                "hospital": "Apollo Hospital",
+                "claimType": "Reimbursement",
+                "claimedAmount": 12000,
+                "totalAmount": 10000,
+                "paidAmount": 10000,
+                "outstandingAmount": 0,
+                "category": "Settled",
+                "sumInsured": 300000
+            },
+            {
+                "claimId": "CLM018",
+                "employeeCode": "EMP018",
+                "employeeName": "Shalini Menon",
+                "relation": "Self",
+                "disease": "Migraine",
+                "hospital": "Fortis Hospital",
+                "claimType": "Reimbursement",
+                "claimedAmount": 25000,
+                "totalAmount": 22000,
+                "paidAmount": 22000,
+                "outstandingAmount": 0,
+                "category": "Settled",
+                "sumInsured": 300000
+            },
+            {
+                "claimId": "CLM019",
+                "employeeCode": "EMP019",
+                "employeeName": "Ravi Shastri",
+                "relation": "Father-in-law",
+                "disease": "Heart Attack",
+                "hospital": "Max Healthcare",
+                "claimType": "Cashless",
+                "claimedAmount": 320000,
+                "totalAmount": 300000,
+                "paidAmount": 200000,
+                "outstandingAmount": 100000,
+                "category": "In Process",
+                "sumInsured": 500000
+            },
+            {
+                "claimId": "CLM020",
+                "employeeCode": "EMP020",
+                "employeeName": "Nisha Gupta",
+                "relation": "Daughter",
+                "disease": "Pneumonia",
+                "hospital": "Manipal Hospital",
+                "claimType": "Reimbursement",
+                "claimedAmount": 35000,
+                "totalAmount": 30000,
+                "paidAmount": 30000,
+                "outstandingAmount": 0,
+                "category": "Settled",
+                "sumInsured": 300000
+            },
+            {
+                "claimId": "CLM021",
+                "employeeCode": "EMP021",
+                "employeeName": "Ajay Kumar",
+                "relation": "Self",
+                "disease": "Dengue",
+                "hospital": "Apollo Hospital",
+                "claimType": "Cashless",
+                "claimedAmount": 45000,
+                "totalAmount": 42000,
+                "paidAmount": 42000,
+                "outstandingAmount": 0,
+                "category": "Settled",
+                "sumInsured": 500000
+            },
+            {
+                "claimId": "CLM022",
+                "employeeCode": "EMP022",
+                "employeeName": "Smita Patil",
+                "relation": "Spouse",
+                "disease": "Gallstones",
+                "hospital": "Fortis Hospital",
+                "claimType": "Cashless",
+                "claimedAmount": 85000,
+                "totalAmount": 80000,
+                "paidAmount": 80000,
+                "outstandingAmount": 0,
+                "category": "Settled",
+                "sumInsured": 500000
+            },
+            {
+                "claimId": "CLM023",
+                "employeeCode": "EMP023",
+                "employeeName": "Gopal Krishnan",
+                "relation": "Father",
+                "disease": "Parkinson's",
+                "hospital": "AIIMS",
+                "claimType": "Reimbursement",
+                "claimedAmount": 120000,
+                "totalAmount": 100000,
+                "paidAmount": 0,
+                "outstandingAmount": 0,
+                "category": "Denied",
+                "sumInsured": 300000
+            },
+            {
+                "claimId": "CLM024",
+                "employeeCode": "EMP024",
+                "employeeName": "Rekha Sharma",
+                "relation": "Mother",
+                "disease": "Arthritis",
+                "hospital": "Max Healthcare",
+                "claimType": "Reimbursement",
+                "claimedAmount": 45000,
+                "totalAmount": 40000,
+                "paidAmount": 40000,
+                "outstandingAmount": 0,
+                "category": "Settled",
+                "sumInsured": 300000
+            },
+            {
+                "claimId": "CLM025",
+                "employeeCode": "EMP025",
+                "employeeName": "Dinesh Yadav",
+                "relation": "Son",
+                "disease": "Fracture",
+                "hospital": "Manipal Hospital",
+                "claimType": "Cashless",
+                "claimedAmount": 65000,
+                "totalAmount": 60000,
+                "paidAmount": 60000,
+                "outstandingAmount": 0,
+                "category": "Settled",
+                "sumInsured": 500000
+            },
+            {
+                "claimId": "CLM026",
+                "employeeCode": "EMP026",
+                "employeeName": "Jyoti Sinha",
+                "relation": "Self",
+                "disease": "Asthma",
+                "hospital": "Apollo Hospital",
+                "claimType": "Reimbursement",
+                "claimedAmount": 28000,
+                "totalAmount": 25000,
+                "paidAmount": 25000,
+                "outstandingAmount": 0,
+                "category": "Settled",
+                "sumInsured": 300000
+            },
+            {
+                "claimId": "CLM027",
+                "employeeCode": "EMP027",
+                "employeeName": "Prakash Rao",
+                "relation": "Spouse",
+                "disease": "Thyroid",
+                "hospital": "Fortis Hospital",
+                "claimType": "Reimbursement",
+                "claimedAmount": 22000,
+                "totalAmount": 20000,
+                "paidAmount": 20000,
+                "outstandingAmount": 0,
+                "category": "Settled",
+                "sumInsured": 300000
+            },
+            {
+                "claimId": "CLM028",
+                "employeeCode": "EMP028",
+                "employeeName": "Lakshmi Raj",
+                "relation": "Daughter",
+                "disease": "Chicken Pox",
+                "hospital": "Max Healthcare",
+                "claimType": "Reimbursement",
+                "claimedAmount": 18000,
+                "totalAmount": 15000,
+                "paidAmount": 15000,
+                "outstandingAmount": 0,
+                "category": "Settled",
+                "sumInsured": 300000
+            },
+            {
+                "claimId": "CLM029",
+                "employeeCode": "EMP029",
+                "employeeName": "Murali Krishnan",
+                "relation": "Father",
+                "disease": "COPD",
+                "hospital": "Manipal Hospital",
+                "claimType": "Reimbursement",
+                "claimedAmount": 75000,
+                "totalAmount": 70000,
+                "paidAmount": 50000,
+                "outstandingAmount": 20000,
+                "category": "In Process",
+                "sumInsured": 500000
+            },
+            {
+                "claimId": "CLM030",
+                "employeeCode": "EMP030",
+                "employeeName": "Geeta Nair",
+                "relation": "Mother",
+                "disease": "Diabetes",
+                "hospital": "AIIMS",
+                "claimType": "Reimbursement",
+                "claimedAmount": 38000,
+                "totalAmount": 35000,
+                "paidAmount": 35000,
+                "outstandingAmount": 0,
+                "category": "Settled",
+                "sumInsured": 300000
+            },
+            {
+                "claimId": "CLM031",
+                "employeeCode": "EMP031",
+                "employeeName": "Anil Kapoor",
+                "relation": "Self",
+                "disease": "Hypertension",
+                "hospital": "Apollo Hospital",
+                "claimType": "Reimbursement",
+                "claimedAmount": 25000,
+                "totalAmount": 22000,
+                "paidAmount": 22000,
+                "outstandingAmount": 0,
+                "category": "Settled",
+                "sumInsured": 300000
+            },
+            {
+                "claimId": "CLM032",
+                "employeeCode": "EMP032",
+                "employeeName": "Shobha Iyer",
+                "relation": "Spouse",
+                "disease": "Migraine",
+                "hospital": "Fortis Hospital",
+                "claimType": "Reimbursement",
+                "claimedAmount": 15000,
+                "totalAmount": 12000,
+                "paidAmount": 12000,
+                "outstandingAmount": 0,
+                "category": "Settled",
+                "sumInsured": 300000
+            },
+            {
+                "claimId": "CLM033",
+                "employeeCode": "EMP033",
+                "employeeName": "Ramesh Gupta",
+                "relation": "Son",
+                "disease": "Fever",
+                "hospital": "Max Healthcare",
+                "claimType": "Reimbursement",
+                "claimedAmount": 9000,
+                "totalAmount": 8000,
+                "paidAmount": 8000,
+                "outstandingAmount": 0,
+                "category": "Settled",
+                "sumInsured": 300000
+            },
+            {
+                "claimId": "CLM034",
+                "employeeCode": "EMP034",
+                "employeeName": "Vasanthi Rajan",
+                "relation": "Daughter",
+                "disease": "Allergy",
+                "hospital": "Manipal Hospital",
+                "claimType": "Reimbursement",
+                "claimedAmount": 12000,
+                "totalAmount": 10000,
+                "paidAmount": 10000,
+                "outstandingAmount": 0,
+                "category": "Settled",
+                "sumInsured": 300000
+            },
+            {
+                "claimId": "CLM035",
+                "employeeCode": "EMP035",
+                "employeeName": "Sundar Pichai",
+                "relation": "Self",
+                "disease": "Back Pain",
+                "hospital": "Apollo Hospital",
+                "claimType": "Reimbursement",
+                "claimedAmount": 35000,
+                "totalAmount": 30000,
+                "paidAmount": 30000,
+                "outstandingAmount": 0,
+                "category": "Settled",
+                "sumInsured": 500000
+            },
+            {
+                "claimId": "CLM036",
+                "employeeCode": "EMP036",
+                "employeeName": "Latha Subramanian",
+                "relation": "Mother",
+                "disease": "Knee Pain",
+                "hospital": "Fortis Hospital",
+                "claimType": "Reimbursement",
+                "claimedAmount": 28000,
+                "totalAmount": 25000,
+                "paidAmount": 25000,
+                "outstandingAmount": 0,
+                "category": "Settled",
+                "sumInsured": 300000
+            },
+            {
+                "claimId": "CLM037",
+                "employeeCode": "EMP037",
+                "employeeName": "Venkat Reddy",
+                "relation": "Father",
+                "disease": "Prostate",
+                "hospital": "Max Healthcare",
+                "claimType": "Cashless",
+                "claimedAmount": 180000,
+                "totalAmount": 160000,
+                "paidAmount": 160000,
+                "outstandingAmount": 0,
+                "category": "Settled",
+                "sumInsured": 500000
+            },
+            {
+                "claimId": "CLM038",
+                "employeeCode": "EMP038",
+                "employeeName": "Savitri Devi",
+                "relation": "Mother-in-law",
+                "disease": "Cataract",
+                "hospital": "AIIMS",
+                "claimType": "Cashless",
+                "claimedAmount": 55000,
+                "totalAmount": 50000,
+                "paidAmount": 50000,
+                "outstandingAmount": 0,
+                "category": "Settled",
+                "sumInsured": 300000
+            },
+            {
+                "claimId": "CLM039",
+                "employeeCode": "EMP039",
+                "employeeName": "Mahesh Babu",
+                "relation": "Spouse",
+                "disease": "Pregnancy",
+                "hospital": "Apollo Hospital",
+                "claimType": "Cashless",
+                "claimedAmount": 95000,
+                "totalAmount": 92000,
+                "paidAmount": 92000,
+                "outstandingAmount": 0,
+                "category": "Settled",
+                "sumInsured": 500000
+            },
+            {
+                "claimId": "CLM040",
+                "employeeCode": "EMP040",
+                "employeeName": "Anushka Shetty",
+                "relation": "Self",
+                "disease": "Migraine",
+                "hospital": "Fortis Hospital",
+                "claimType": "Reimbursement",
+                "claimedAmount": 18000,
+                "totalAmount": 15000,
+                "paidAmount": 15000,
+                "outstandingAmount": 0,
+                "category": "Settled",
+                "sumInsured": 300000
+            },
+            {
+                "claimId": "CLM041",
+                "employeeCode": "EMP041",
+                "employeeName": "Prabhas Raju",
+                "relation": "Father",
+                "disease": "Heart Attack",
+                "hospital": "Max Healthcare",
+                "claimType": "Cashless",
+                "claimedAmount": 420000,
+                "totalAmount": 400000,
+                "paidAmount": 350000,
+                "outstandingAmount": 50000,
+                "category": "In Process",
+                "sumInsured": 500000
+            },
+            {
+                "claimId": "CLM042",
+                "employeeCode": "EMP042",
+                "employeeName": "NTR Junior",
+                "relation": "Son",
+                "disease": "Fracture",
+                "hospital": "Manipal Hospital",
+                "claimType": "Cashless",
+                "claimedAmount": 75000,
+                "totalAmount": 70000,
+                "paidAmount": 70000,
+                "outstandingAmount": 0,
+                "category": "Settled",
+                "sumInsured": 500000
+            },
+            {
+                "claimId": "CLM043",
+                "employeeCode": "EMP043",
+                "employeeName": "Ram Charan",
+                "relation": "Self",
+                "disease": "Dengue",
+                "hospital": "Apollo Hospital",
+                "claimType": "Cashless",
+                "claimedAmount": 48000,
+                "totalAmount": 45000,
+                "paidAmount": 45000,
+                "outstandingAmount": 0,
+                "category": "Settled",
+                "sumInsured": 500000
+            },
+            {
+                "claimId": "CLM044",
+                "employeeCode": "EMP044",
+                "employeeName": "Allu Arjun",
+                "relation": "Spouse",
+                "disease": "Thyroid",
+                "hospital": "Fortis Hospital",
+                "claimType": "Reimbursement",
+                "claimedAmount": 22000,
+                "totalAmount": 20000,
+                "paidAmount": 0,
+                "outstandingAmount": 0,
+                "category": "Denied",
+                "sumInsured": 300000
+            },
+            {
+                "claimId": "CLM045",
+                "employeeCode": "EMP045",
+                "employeeName": "Mahesh Bhatt",
+                "relation": "Mother",
+                "disease": "Arthritis",
+                "hospital": "Max Healthcare",
+                "claimType": "Reimbursement",
+                "claimedAmount": 42000,
+                "totalAmount": 38000,
+                "paidAmount": 38000,
+                "outstandingAmount": 0,
+                "category": "Settled",
+                "sumInsured": 300000
+            },
+            {
+                "claimId": "CLM046",
+                "employeeCode": "EMP046",
+                "employeeName": "Pooja Bhatt",
+                "relation": "Daughter",
+                "disease": "Fever",
+                "hospital": "Manipal Hospital",
+                "claimType": "Reimbursement",
+                "claimedAmount": 15000,
+                "totalAmount": 12000,
+                "paidAmount": 12000,
+                "outstandingAmount": 0,
+                "category": "Settled",
+                "sumInsured": 300000
+            },
+            {
+                "claimId": "CLM047",
+                "employeeCode": "EMP047",
+                "employeeName": "Imran Khan",
+                "relation": "Father",
+                "disease": "Diabetes",
+                "hospital": "AIIMS",
+                "claimType": "Reimbursement",
+                "claimedAmount": 35000,
+                "totalAmount": 32000,
+                "paidAmount": 32000,
+                "outstandingAmount": 0,
+                "category": "Settled",
+                "sumInsured": 300000
+            },
+            {
+                "claimId": "CLM048",
+                "employeeCode": "EMP048",
+                "employeeName": "Kareena Kapoor",
+                "relation": "Mother",
+                "disease": "Hypertension",
+                "hospital": "Apollo Hospital",
+                "claimType": "Reimbursement",
+                "claimedAmount": 28000,
+                "totalAmount": 25000,
+                "paidAmount": 25000,
+                "outstandingAmount": 0,
+                "category": "Settled",
+                "sumInsured": 300000
+            },
+            {
+                "claimId": "CLM049",
+                "employeeCode": "EMP049",
+                "employeeName": "Ranbir Singh",
+                "relation": "Self",
+                "disease": "Asthma",
+                "hospital": "Fortis Hospital",
+                "claimType": "Reimbursement",
+                "claimedAmount": 32000,
+                "totalAmount": 30000,
+                "paidAmount": 30000,
+                "outstandingAmount": 0,
+                "category": "Settled",
+                "sumInsured": 500000
+            },
+            {
+                "claimId": "CLM050",
+                "employeeCode": "EMP050",
+                "employeeName": "Deepika Padukone",
+                "relation": "Spouse",
+                "disease": "Migraine",
+                "hospital": "Max Healthcare",
+                "claimType": "Reimbursement",
+                "claimedAmount": 18000,
+                "totalAmount": 15000,
+                "paidAmount": 15000,
+                "outstandingAmount": 0,
+                "category": "Settled",
+                "sumInsured": 300000
+            }
+        ];
+
+        const columnMapping = {
+            claimId: "claimId",
+            employeeCode: "employeeCode",
+            employeeName: "employeeName",
+            relation: "relation",
+            disease: "disease",
+            hospital: "hospital",
+            claimType: "claimType",
+            claimedAmount: "claimedAmount",
+            totalAmount: "totalAmount",
+            paidAmount: "paidAmount",
+            outstandingAmount: "outstandingAmount",
+            category: "category",
+            sumInsured: "sumInsured"
+        };
+        
+        const initialPremium = 4500000; // 45 Lakhs premium
+        
+        const totalRecords = rawData.length;
+        
+        const generationDate = "2026-03-11";
+        const policyStartDate = "2025-04-01";
+        const policyEndDate = "2026-03-31";
+        
+        // Member analysis data
+        const memberData = {
+            type: "full", // "full" or "livesOnly"
+            data: [
+                {
+                    sumInsured: 300000,
+                    lives: 85,
+                    bucket: "3 Lakhs"
+                },
+                {
+                    sumInsured: 500000,
+                    lives: 65,
+                    bucket: "5 Lakhs"
+                },
+                {
+                    sumInsured: 1000000,
+                    lives: 25,
+                    bucket: "10 Lakhs"
+                }
+            ]
+        };
+    </script>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        /* Floating Background Animation */
+        .floating-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+            overflow: hidden;
+        }
+        
+        .float-icon {
+            position: absolute;
+            font-size: 2rem;
+            animation: floatContinuous 40s infinite linear;
+            opacity: 0.35;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
+            text-shadow: 0 0 15px rgba(102, 126, 234, 0.8);
+            z-index: 1;
+            color: #667eea;
+        }
+        
+        @keyframes floatContinuous {
+            0% {
+                transform: translateY(120vh) translateX(0) rotate(0deg) scale(0.8);
+                opacity: 0.15;
+            }
+            10% {
+                opacity: 0.20;
+            }
+            50% {
+                opacity: 0.18;
+                transform: translateY(0) translateX(20px) rotate(180deg) scale(1);
+            }
+            90% {
+                opacity: 0.20;
+            }
+            100% {
+                transform: translateY(-120vh) translateX(40px) rotate(360deg) scale(0.8);
+                opacity: 0.15;
+            }
+        }
+        
+        .float-icon:nth-child(1) { animation-delay: 0s; left: 5%; animation-duration: 45s; }
+        .float-icon:nth-child(2) { animation-delay: 5s; left: 15%; animation-duration: 50s; }
+        .float-icon:nth-child(3) { animation-delay: 10s; left: 25%; animation-duration: 42s; }
+        .float-icon:nth-child(4) { animation-delay: 15s; left: 35%; animation-duration: 48s; }
+        .float-icon:nth-child(5) { animation-delay: 20s; left: 45%; animation-duration: 44s; }
+        .float-icon:nth-child(6) { animation-delay: 25s; left: 55%; animation-duration: 52s; }
+        .float-icon:nth-child(7) { animation-delay: 30s; left: 65%; animation-duration: 46s; }
+        .float-icon:nth-child(8) { animation-delay: 35s; left: 75%; animation-duration: 40s; }
+        .float-icon:nth-child(9) { animation-delay: 40s; left: 85%; animation-duration: 54s; }
+        .float-icon:nth-child(10) { animation-delay: 45s; left: 95%; animation-duration: 38s; }
+        .float-icon:nth-child(11) { animation-delay: 50s; left: 10%; animation-duration: 43s; }
+        .float-icon:nth-child(12) { animation-delay: 55s; left: 20%; animation-duration: 47s; }
+        .float-icon:nth-child(13) { animation-delay: 60s; left: 30%; animation-duration: 41s; }
+        .float-icon:nth-child(14) { animation-delay: 65s; left: 40%; animation-duration: 49s; }
+        .float-icon:nth-child(15) { animation-delay: 70s; left: 50%; animation-duration: 53s; }
+        
+        * {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            font-size: 13px;
+            overflow-x: hidden;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+        }
+        
+        .dashboard-container {
+            max-width: 1600px;
+            margin: 0 auto;
+            padding: 0 16px;
+        }
+        
+        @media (max-width: 768px) {
+            body {
+                font-size: 11px;
+            }
+            
+            .dashboard-container {
+                padding: 0 8px;
+                max-width: 100%;
+            }
+            
+            .kpi-value {
+                font-size: 18px !important;
+            }
+            
+            .chart-container {
+                padding: 12px !important;
+            }
+            
+            .filter-select {
+                padding: 6px 8px !important;
+                font-size: 11px !important;
+            }
+            
+            .chart-wrapper-sm {
+                height: 160px !important;
+            }
+            
+            .chart-wrapper-md {
+                height: 180px !important;
+            }
+            
+            .chart-wrapper-lg {
+                height: 200px !important;
+            }
+            
+            .float-icon {
+                font-size: 1rem !important;
+                opacity: 0.15 !important;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .kpi-value {
+                font-size: 16px !important;
+            }
+            
+            .kpi-title {
+                font-size: 9px !important;
+            }
+            
+            .kpi-subtitle {
+                font-size: 8px !important;
+            }
+            
+            .filter-select {
+                width: 100% !important;
+                margin-bottom: 8px;
+            }
+            
+            .chart-wrapper-sm {
+                height: 140px !important;
+            }
+            
+            .chart-wrapper-md {
+                height: 160px !important;
+            }
+            
+            .chart-wrapper-lg {
+                height: 180px !important;
+            }
+        }
+        
+        /* KPI Cards - With drill down cursor */
+        .kpi-card {
+            background: linear-gradient(145deg, #ffffff 0%, #f8fafc 100%);
+            border-left: 4px solid;
+            border-radius: 10px;
+            padding: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            height: 100%;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .kpi-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+        }
+        
+        .kpi-title {
+            font-size: 10px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            color: #64748b;
+            white-space: nowrap;
+            text-transform: uppercase;
+            margin-bottom: 4px;
+        }
+        
+        .kpi-value {
+            font-size: 20px;
+            font-weight: 700;
+            color: #1e293b;
+            line-height: 1.2;
+            margin: 4px 0;
+        }
+        
+        .kpi-subtitle {
+            font-size: 9px;
+            color: #94a3b8;
+            white-space: nowrap;
+        }
+        
+        .chart-container {
+            background-color: #ffffff;
+            background-image: 
+                radial-gradient(at 88% 40%, hsla(240,50%,96%,1) 0px, transparent 85%),
+                radial-gradient(at 49% 30%, hsla(280,50%,96%,1) 0px, transparent 85%),
+                radial-gradient(at 14% 26%, hsla(200,50%,96%,1) 0px, transparent 85%),
+                radial-gradient(at 0% 64%, hsla(260,50%,96%,1) 0px, transparent 85%),
+                radial-gradient(at 41% 94%, hsla(340,50%,96%,1) 0px, transparent 85%),
+                radial-gradient(at 100% 99%, hsla(180,50%,96%,1) 0px, transparent 85%);
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+            border: 1px solid rgba(255,255,255,0.8);
+            transition: all 0.3s ease;
+            overflow: hidden;
+            padding: 16px;
+            height: 100%;
+        }
+        
+        .chart-title {
+            font-size: 12px;
+            font-weight: 600;
+            color: #374151;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .chart-wrapper {
+            position: relative;
+            width: 100%;
+        }
+        
+        .chart-wrapper-sm {
+            height: 180px;
+        }
+        
+        .chart-wrapper-md {
+            height: 220px;
+        }
+        
+        .chart-wrapper-lg {
+            height: 250px;
+        }
+        
+        .chart-wrapper-gauge {
+            height: 160px;
+        }
+        
+        /* Gauge - Non-interactive */
+        .gauge-container {
+            cursor: default;
+        }
+        
+        .filter-bar {
+            background: white;
+            border-radius: 10px;
+            padding: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            margin-bottom: 16px;
+        }
+        
+        .filter-select {
+            font-size: 12px;
+            padding: 8px 28px 8px 12px;
+            border-radius: 8px;
+            border: 1px solid #e2e8f0;
+            color: #475569;
+            background: white;
+            cursor: pointer;
+            min-width: 120px;
+        }
+        
+        .filter-select:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 2px rgba(102, 126, 234, 0.1);
+        }
+        
+        .filter-tag {
+            background: #e0e7ff;
+            color: #4338ca;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 11px;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            margin: 2px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .filter-tag:hover {
+            background: #c7d2fe;
+        }
+        
+        .filter-tag .remove {
+            width: 14px;
+            height: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background: rgba(0,0,0,0.1);
+            font-size: 10px;
+        }
+        
+        .filter-tag .remove:hover {
+            background: #ef4444;
+            color: white;
+        }
+        
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 3px;
+        }
+        
+        .insight-card {
+            background: white;
+            border-radius: 8px;
+            padding: 10px;
+            border-left: 4px solid;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+        }
+        
+        .date-info-bar {
+            background: white;
+            border-radius: 12px;
+            padding: 16px 20px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            border-left: 6px solid #3b82f6;
+            border-top: 1px solid #e2e8f0;
+            border-right: 1px solid #e2e8f0;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        
+        .date-badge {
+            background: #eff6ff;
+            color: #1e40af;
+            padding: 8px 16px;
+            border-radius: 30px;
+            font-size: 13px;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            border: 1px solid #bfdbfe;
+        }
+        
+        .date-badge i {
+            font-size: 14px;
+        }
+        
+        .policy-badge {
+            background: #ecfdf5;
+            color: #065f46;
+            padding: 8px 16px;
+            border-radius: 30px;
+            font-size: 13px;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            border: 1px solid #a7f3d0;
+        }
+        
+        .records-badge {
+            background: #fef3c7;
+            color: #92400e;
+            padding: 8px 16px;
+            border-radius: 30px;
+            font-size: 13px;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            border: 1px solid #fde68a;
+        }
+        
+        .info-graphic {
+            background: #f9fafb;
+            border-radius: 12px;
+            padding: 16px;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .info-graphic-title {
+            font-size: 11px;
+            font-weight: 600;
+            color: #4b5563;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 12px;
+        }
+        
+        .stat-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 0;
+            border-bottom: 1px dashed #e5e7eb;
+        }
+        
+        .stat-label {
+            font-size: 12px;
+            color: #6b7280;
+        }
+        
+        .stat-value {
+            font-size: 14px;
+            font-weight: 600;
+            color: #1f2937;
+        }
+        
+        .stat-percent {
+            font-size: 11px;
+            color: #9ca3af;
+            margin-left: 4px;
+        }
+        
+        .progress-stat {
+            margin-top: 8px;
+        }
+        
+        .progress-stat-bar {
+            height: 8px;
+            background: #e5e7eb;
+            border-radius: 4px;
+            overflow: hidden;
+            margin: 8px 0;
+        }
+        
+        .progress-stat-fill {
+            height: 100%;
+            border-radius: 4px;
+            transition: width 0.3s ease;
+        }
+        
+        .segmented-progress {
+            display: flex;
+            height: 12px;
+            border-radius: 6px;
+            overflow: hidden;
+            margin: 12px 0;
+        }
+        
+        .segmented-progress .segment {
+            height: 100%;
+        }
+        
+        .legend-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 4px;
+        }
+        
+        /* Claim Type Status Table - Full Box */
+        .claim-type-table {
+            width: 100%;
+            height: 100%;
+            min-height: 150px;
+        }
+        
+        .claim-type-table table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .claim-type-table th {
+            background: #f8fafc;
+            padding: 8px 4px;
+            text-align: center;
+            font-size: 11px;
+            font-weight: 600;
+            border-bottom: 2px solid #e2e8f0;
+        }
+        
+        .claim-type-table td {
+            padding: 6px 4px;
+            text-align: center;
+            font-size: 11px;
+            border-bottom: 1px solid #f1f5f9;
+        }
+        
+        /* Drill Down Modal */
+        .drill-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.8);
+            z-index: 1000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 16px;
+            backdrop-filter: blur(5px);
+        }
+        
+        .drill-modal.show {
+            display: flex;
+        }
+        
+        .drill-content {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            max-width: 800px;
+            width: 100%;
+            max-height: 80vh;
+            overflow-y: auto;
+            animation: slideUp 0.25s ease;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+        }
+        
+        @keyframes slideUp {
+            from { transform: translateY(15px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        
+        .close-btn {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            background: #ef4444;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        
+        .drill-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 16px;
+            font-size: 12px;
+        }
+        
+        .drill-table th {
+            background: #f1f5f9;
+            padding: 10px;
+            text-align: left;
+            border-bottom: 2px solid #e2e8f0;
+        }
+        
+        .drill-table td {
+            padding: 8px 10px;
+            border-bottom: 1px solid #f1f5f9;
+        }
+        
+        .drill-table tr:hover {
+            background: #f8fafc;
+        }
+        
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(255,255,255,0.9);
+            z-index: 9999;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            gap: 12px;
+        }
+        
+        .loading-overlay.show {
+            display: flex;
+        }
+        
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 3px solid #e0e7ff;
+            border-top-color: #4f46e5;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Member Analysis Card Styles - Matching Dashboard */
+        .member-analysis-card {
+            background: linear-gradient(145deg, #ffffff 0%, #f8fafc 100%);
+            border-left: 4px solid #8b5cf6;
+            border-radius: 10px;
+            padding: 16px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            margin-bottom: 16px;
+            transition: all 0.2s ease;
+        }
+        
+        .member-analysis-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+        }
+        
+        .member-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        
+        .member-badge {
+            background: #f5f3ff;
+            color: #6d28d9;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .member-stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+        
+        .member-stat-box {
+            background: white;
+            border-radius: 8px;
+            padding: 12px;
+            text-align: center;
+            border: 1px solid #e2e8f0;
+        }
+        
+        .member-stat-label {
+            font-size: 10px;
+            color: #64748b;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+            margin-bottom: 4px;
+        }
+        
+        .member-stat-value {
+            font-size: 18px;
+            font-weight: 700;
+            color: #1e293b;
+        }
+        
+        .distribution-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-top: 12px;
+        }
+        
+        .distribution-column {
+            background: #f9fafb;
+            border-radius: 8px;
+            padding: 12px;
+        }
+        
+        .column-title {
+            font-size: 11px;
+            font-weight: 600;
+            color: #4b5563;
+            text-transform: uppercase;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .bucket-item {
+            margin-bottom: 10px;
+        }
+        
+        .bucket-header {
+            display: flex;
+            justify-content: space-between;
+            font-size: 11px;
+            margin-bottom: 4px;
+        }
+        
+        .bucket-name {
+            color: #6b7280;
+        }
+        
+        .bucket-numbers {
+            font-weight: 600;
+            color: #1f2937;
+        }
+        
+        .bucket-bar-bg {
+            height: 6px;
+            background: #e5e7eb;
+            border-radius: 3px;
+            overflow: hidden;
+        }
+        
+        .bucket-bar-fill {
+            height: 100%;
+            border-radius: 3px;
+            transition: width 0.3s ease;
+        }
+        
+        .no-data-message {
+            color: #9ca3af;
+            font-size: 11px;
+            text-align: center;
+            padding: 20px 0;
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+    <!-- Floating Background -->
+    <div class="floating-background">
+        <i class="fas fa-pills float-icon" style="color: #a855f7;"></i>
+        <i class="fas fa-stethoscope float-icon" style="color: #94a3b8;"></i>
+        <i class="fas fa-chart-bar float-icon" style="color: #3b82f6;"></i>
+        <i class="fas fa-chart-line float-icon" style="color: #10b981;"></i>
+        <i class="fas fa-hospital float-icon" style="color: #ef4444;"></i>
+        <i class="fas fa-dna float-icon" style="color: #ec4899;"></i>
+        <i class="fas fa-shield-alt float-icon" style="color: #6366f1;"></i>
+        <i class="fas fa-money-bill-wave float-icon" style="color: #10b981;"></i>
+        <i class="fas fa-exclamation-triangle float-icon" style="color: #f59e0b;"></i>
+        <i class="fas fa-user-nurse float-icon" style="color: #f43f5e;"></i>
+        <i class="fas fa-notes-medical float-icon" style="color: #06b6d4;"></i>
+        <i class="fas fa-heartbeat float-icon" style="color: #ef4444;"></i>
+        <i class="fas fa-prescription-bottle float-icon" style="color: #8b5cf6;"></i>
+        <i class="fas fa-ambulance float-icon" style="color: #3b82f6;"></i>
+        <i class="fas fa-clipboard-check float-icon" style="color: #10b981;"></i>
+        <i class="fas fa-robot float-icon" style="color: #8b5cf6;"></i>
+        <i class="fas fa-brain float-icon" style="color: #ec4899;"></i>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div id="loadingOverlay" class="loading-overlay">
+        <div class="spinner"></div>
+        <p class="text-gray-600 font-medium">Loading dashboard...</p>
+    </div>
+
+    <!-- Drill Down Modal -->
+    <div id="drillModal" class="drill-modal">
+        <div class="drill-content">
+            <button class="close-btn" onclick="closeDrillModal()">×</button>
+            <h3 id="drillTitle" class="text-lg font-bold text-gray-800 mb-4"></h3>
+            <div id="drillContent"></div>
+        </div>
+    </div>
+
+    <!-- AI Claim Details Modal -->
+    <div id="aiClaimModal" class="drill-modal">
+        <div class="drill-content">
+            <button class="close-btn" onclick="closeAIClaimModal()">×</button>
+            <h3 id="aiClaimTitle" class="text-lg font-bold text-gray-800 mb-4">AI Analysis: <span id="aiClaimId"></span></h3>
+            <div id="aiClaimContent"></div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="dashboard-container">
+        <!-- Date Information Bar -->
+        <div class="date-info-bar">
+            <div class="flex items-center gap-3 flex-wrap">
+                <div class="date-badge">
+                    <i class="fas fa-calendar-alt"></i>
+                    <span><strong>Generated:</strong> <span id="displayGenerationDate"></span></span>
+                </div>
+                <div class="policy-badge">
+                    <i class="fas fa-clock"></i>
+                    <span><strong>Policy Period:</strong> <span id="displayPolicyPeriod"></span></span>
+                </div>
+                <div class="records-badge">
+                    <i class="fas fa-database"></i>
+                    <span><strong>Records:</strong> <span id="displayTotalRecords"></span></span>
+                </div>
+                <div class="bg-purple-100 text-purple-700 px-4 py-2 rounded-full text-sm font-medium">
+                    <i class="fas fa-robot mr-2"></i>AI-Powered Analytics
+                </div>
+            </div>
+        </div>
+
+        <!-- Filter Bar -->
+        <div class="filter-bar">
+            <div class="flex flex-wrap gap-2 md:gap-3 items-center">
+                <div class="flex items-center gap-2">
+                    <i class="fas fa-filter text-indigo-600 text-sm"></i>
+                    <span class="font-medium text-gray-700 text-sm">Filters affect only charts below</span>
+                </div>
+                
+                <select id="diseaseFilter" class="filter-select">
+                    <option value="all">All Disease Types</option>
+                </select>
+                
+                <select id="groupFilter" class="filter-select">
+                    <option value="all">All Relations</option>
+                </select>
+                
+                <select id="claimTypeFilter" class="filter-select">
+                    <option value="all">All Claims</option>
+                </select>
+                
+                <select id="hospitalFilter" class="filter-select">
+                    <option value="all">All Hospitals</option>
+                </select>
+                
+                <div class="relative flex-1 min-w-[150px]">
+                    <i class="fas fa-search absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-xs"></i>
+                    <input type="text" id="claimIdSearch" placeholder="Search Claim ID..." class="filter-select pl-9 pr-4 w-full">
+                </div>
+                
+                <button onclick="resetFilters()" class="px-3 md:px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition text-sm flex items-center gap-2 whitespace-nowrap">
+                    <i class="fas fa-redo text-xs"></i> Reset
+                </button>
+            </div>
+            
+            <!-- Active Filters -->
+            <div id="activeFiltersBar" class="hidden mt-3 p-2 bg-gray-50 rounded-lg">
+                <div class="flex items-center gap-3 flex-wrap">
+                    <span class="text-sm text-gray-600"><i class="fas fa-filter mr-2"></i>Active:</span>
+                    <div id="activeFilterTags" class="flex flex-wrap gap-2"></div>
+                    <button onclick="resetFilters()" class="ml-auto text-sm text-indigo-600 hover:text-indigo-800 font-medium">
+                        Clear All
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- KPI Cards Row - 6 KPIs (With drill down) -->
+        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-2 md:gap-3 mb-4 md:mb-5">
+            <!-- KPI 1: Total Claims Paid -->
+            <div class="kpi-card border-l-blue-500" onclick="drillKPI('totalClaims')">
+                <div class="flex items-start">
+                    <div class="flex-1 min-w-0 pr-2">
+                        <p class="kpi-title truncate">TOTAL CLAIMS PAID</p>
+                        <p id="kpiTotalClaims" class="kpi-value">₹0</p>
+                        <p id="kpiClaimsCount" class="kpi-subtitle">0 claims</p>
+                    </div>
+                    <div class="bg-blue-100 p-1.5 rounded-lg shrink-0">
+                        <i class="fas fa-money-bill-wave text-blue-600 text-xs"></i>
+                    </div>
+                </div>
+            </div>
+
+            <!-- KPI 2: Outstanding Amount -->
+            <div class="kpi-card border-l-orange-500" onclick="drillKPI('outstanding')">
+                <div class="flex items-start">
+                    <div class="flex-1 min-w-0 pr-2">
+                        <p class="kpi-title truncate">OUTSTANDING</p>
+                        <p id="kpiOutstanding" class="kpi-value">₹0</p>
+                        <p id="kpiOutstandingCount" class="kpi-subtitle">Pending</p>
+                    </div>
+                    <div class="bg-orange-100 p-1.5 rounded-lg shrink-0">
+                        <i class="fas fa-clock text-orange-600 text-xs"></i>
+                    </div>
+                </div>
+            </div>
+
+            <!-- KPI 3: Claim Ratio -->
+            <div class="kpi-card border-l-green-500" onclick="drillKPI('claimRatio')">
+                <div class="flex items-start">
+                    <div class="flex-1 min-w-0 pr-2">
+                        <p class="kpi-title truncate">CLAIM RATIO</p>
+                        <p id="kpiPremiumRatio" class="kpi-value">--%</p>
+                        <p id="kpiPremiumTrend" class="kpi-subtitle">Based on premium</p>
+                    </div>
+                    <div class="bg-green-100 p-1.5 rounded-lg shrink-0">
+                        <i class="fas fa-rupee-sign text-green-600 text-xs"></i>
+                    </div>
+                </div>
+                <div class="mt-2 bg-gray-200 rounded-full h-1.5">
+                    <div id="premiumRatioBar" class="bg-green-600 h-1.5 rounded-full transition-all duration-500" style="width: 0%"></div>
+                </div>
+            </div>
+
+            <!-- KPI 4: Payout Ratio -->
+            <div class="kpi-card border-l-indigo-500" onclick="drillKPI('payoutRatio')">
+                <div class="flex items-start">
+                    <div class="flex-1 min-w-0 pr-2">
+                        <p class="kpi-title truncate">PAYOUT RATIO</p>
+                        <p id="kpiPayoutRatio" class="kpi-value">--%</p>
+                        <p id="kpiPayoutTrend" class="kpi-subtitle"></p>
+                    </div>
+                    <div class="bg-indigo-100 p-1.5 rounded-lg shrink-0">
+                        <i class="fas fa-percentage text-indigo-600 text-xs"></i>
+                    </div>
+                </div>
+                <div class="mt-2 bg-gray-200 rounded-full h-1.5">
+                    <div id="payoutRatioBar" class="bg-indigo-600 h-1.5 rounded-full transition-all duration-500" style="width: 0%"></div>
+                </div>
+            </div>
+
+            <!-- KPI 5: Average Claim Value -->
+            <div class="kpi-card border-l-amber-500" onclick="drillKPI('avgClaim')">
+                <div class="flex items-start">
+                    <div class="flex-1 min-w-0 pr-2">
+                        <p class="kpi-title truncate">AVG CLAIM</p>
+                        <p id="kpiAvgClaim" class="kpi-value">₹0</p>
+                        <p id="kpiMedianClaim" class="kpi-subtitle">Median: ₹0</p>
+                    </div>
+                    <div class="bg-amber-100 p-1.5 rounded-lg shrink-0">
+                        <i class="fas fa-calculator text-amber-600 text-xs"></i>
+                    </div>
+                </div>
+            </div>
+
+            <!-- KPI 6: High Value Claims -->
+            <div class="kpi-card border-l-purple-500" onclick="drillKPI('highValue')">
+                <div class="flex items-start">
+                    <div class="flex-1 min-w-0 pr-2">
+                        <p class="kpi-title truncate">HIGH VALUE</p>
+                        <p id="kpiHighValue" class="kpi-value">0</p>
+                        <p id="kpiHighValuePct" class="kpi-subtitle">0% of total</p>
+                    </div>
+                    <div class="bg-purple-100 p-1.5 rounded-lg shrink-0">
+                        <i class="fas fa-exclamation-triangle text-purple-600 text-xs"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Row 2: Claim Type vs Status Table + Gauge (Both Static) -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-3 md:gap-4 mb-4 md:mb-5">
+            <!-- Claim Type vs Status Table - Full Box -->
+            <div class="chart-container">
+                <h3 class="chart-title"><i class="fas fa-table text-blue-500"></i>Claim Type vs Status</h3>
+                <div class="claim-type-table">
+                    <div id="claimTypeStatusTable"></div>
+                </div>
+            </div>
+
+            <!-- Gauge (Claim Ratio) - Static -->
+            <div class="chart-container gauge-container">
+                <h3 class="chart-title"><i class="fas fa-tachometer-alt text-amber-500"></i>Claim Ratio</h3>
+                <div class="chart-wrapper chart-wrapper-gauge">
+                    <canvas id="gaugeChart"></canvas>
+                </div>
+                <div id="gaugeMessage" class="text-center mt-3 p-2 rounded-lg bg-gray-50">
+                    <p class="text-xs text-gray-600">Based on full data - unaffected by filters</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Row 3: Four Visuals - With tooltips and hover -->
+        <div class="grid grid-cols-1 lg:grid-cols-4 gap-3 md:gap-4 mb-4 md:mb-5">
+            <!-- Claim Status Split Pie (With tooltips) -->
+            <div class="chart-container">
+                <h3 class="chart-title"><i class="fas fa-chart-pie text-purple-500"></i>Claim Status Split</h3>
+                <div class="chart-wrapper chart-wrapper-sm">
+                    <canvas id="claimTypeChart"></canvas>
+                </div>
+            </div>
+
+            <!-- Self vs Dependent Infographic (With tooltips via title attributes) -->
+            <div class="chart-container">
+                <h3 class="chart-title"><i class="fas fa-users text-emerald-500"></i>Self vs Dependent</h3>
+                <div class="info-graphic" id="selfDependentContainer">
+                    <div id="selfDependentContent" class="space-y-3">
+                        <!-- Populated by JavaScript -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Claim Size Distribution (With tooltips) -->
+            <div class="chart-container">
+                <h3 class="chart-title"><i class="fas fa-chart-bar text-green-500"></i>Claim Size Distribution</h3>
+                <div class="chart-wrapper chart-wrapper-sm">
+                    <canvas id="distributionChart"></canvas>
+                </div>
+            </div>
+
+            <!-- Reimbursement vs Cashless Infographic (With tooltips via title attributes) -->
+            <div class="chart-container">
+                <h3 class="chart-title"><i class="fas fa-exchange-alt text-amber-500"></i>Reimbursement vs Cashless</h3>
+                <div class="info-graphic" id="reimbursementContainer">
+                    <div id="reimbursementContent" class="space-y-3">
+                        <!-- Populated by JavaScript -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Charts Row 4: Interactive Charts (These change with filters) -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-3 md:gap-4 mb-4 md:mb-5">
+            <!-- Disease Chart (Interactive) -->
+            <div class="chart-container relative" id="diseaseChartContainer">
+                <span class="cross-filter-indicator hidden" id="diseaseFilterIndicator">
+                    <i class="fas fa-filter"></i> Filtered
+                    <button onclick="clearChartFilter('disease')" class="ml-1 hover:text-red-300">×</button>
+                </span>
+                <h3 class="chart-title"><i class="fas fa-disease text-rose-500"></i>Claims by Disease <span class="text-xs font-normal text-gray-500 ml-2">(changes with filters)</span></h3>
+                <div class="chart-wrapper chart-wrapper-md">
+                    <canvas id="diseaseChart"></canvas>
+                </div>
+            </div>
+
+            <!-- Group Distribution (Interactive) -->
+            <div class="chart-container relative" id="groupChartContainer">
+                <span class="cross-filter-indicator hidden" id="groupFilterIndicator">
+                    <i class="fas fa-filter"></i> Filtered
+                    <button onclick="clearChartFilter('group')" class="ml-1 hover:text-red-300">×</button>
+                </span>
+                <h3 class="chart-title"><i class="fas fa-users text-teal-500"></i>Claims by Relation <span class="text-xs font-normal text-gray-500 ml-2">(changes with filters)</span></h3>
+                <div class="chart-wrapper chart-wrapper-md">
+                    <canvas id="groupChart"></canvas>
+                </div>
+            </div>
+
+            <!-- Hospital Distribution (Interactive) -->
+            <div class="chart-container relative" id="hospitalChartContainer">
+                <span class="cross-filter-indicator hidden" id="hospitalFilterIndicator">
+                    <i class="fas fa-filter"></i> Filtered
+                    <button onclick="clearChartFilter('hospital')" class="ml-1 hover:text-red-300">×</button>
+                </span>
+                <h3 class="chart-title"><i class="fas fa-hospital text-blue-500"></i>Top Hospitals <span class="text-xs font-normal text-gray-500 ml-2">(changes with filters)</span></h3>
+                <div class="chart-wrapper chart-wrapper-md">
+                    <canvas id="hospitalChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- Member Analysis Section - Styled like dashboard cards -->
+        <div id="memberAnalysisContainer" class="mb-4 md:mb-5" style="display: none;">
+            <h2 class="text-white text-lg font-semibold mb-3 flex items-center gap-2">
+                <i class="fas fa-users text-purple-300"></i>
+                Member Analysis
+                <span id="memberAnalysisSubtitle" class="text-sm font-normal text-gray-300 ml-2"></span>
+            </h2>
+            <div id="memberAnalysisContent" class="space-y-4">
+                <!-- Populated by JavaScript -->
+            </div>
+        </div>
+
+        <!-- Smart Insights Panel -->
+        <div class="chart-container mb-4 md:mb-5">
+            <h3 class="chart-title"><i class="fas fa-lightbulb text-yellow-500"></i>Smart Insights</h3>
+            <div id="insightsPanel" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3 mt-3"></div>
+        </div>
+    </div>
+
+    <script>
+        // Global state
+        let filteredData = [];
+        let fullData = []; // Store full unfiltered data for static elements
+        let charts = {};
+        let groupField = 'relation';
+        let crossFilters = {
+            disease: null,
+            group: null,
+            hospital: null
+        };
+
+        // Chart.js defaults
+        Chart.defaults.font.family = "'Inter', -apple-system, sans-serif";
+        Chart.defaults.plugins.legend.labels.usePointStyle = true;
+
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('Dashboard initialized');
+            console.log('Data loaded:', rawData.length, 'records');
+            console.log('Premium:', initialPremium);
+            console.log('Generation Date:', generationDate);
+            console.log('Policy Period:', policyStartDate, 'to', policyEndDate);
+            console.log('Member Data:', memberData);
+            
+            if (!rawData || rawData.length === 0) {
+                alert('No data found in the dashboard!');
+                return;
+            }
+
+            // Store full data for static elements
+            fullData = [...rawData];
+            filteredData = [...rawData]; // Initially same as full data
+
+            // Set date information
+            document.getElementById('displayGenerationDate').textContent = formatDate(generationDate) || 'Not specified';
+            
+            let policyDisplay = 'Not specified';
+            if (policyStartDate && policyEndDate) {
+                policyDisplay = formatDate(policyStartDate) + ' to ' + formatDate(policyEndDate);
+            } else if (policyStartDate) {
+                policyDisplay = 'From ' + formatDate(policyStartDate);
+            } else if (policyEndDate) {
+                policyDisplay = 'Until ' + formatDate(policyEndDate);
+            }
+            document.getElementById('displayPolicyPeriod').textContent = policyDisplay;
+            document.getElementById('displayTotalRecords').textContent = rawData.length;
+
+            // Populate filters
+            populateFilters();
+            
+            // Show member analysis if lives data exists
+            if (memberData && memberData.type) {
+                document.getElementById('memberAnalysisContainer').style.display = 'block';
+                
+                if (memberData.type === 'full') {
+                    document.getElementById('memberAnalysisSubtitle').textContent = 'Distribution by Sum Insured Buckets';
+                    updateFullMemberAnalysis();
+                } else if (memberData.type === 'livesOnly') {
+                    document.getElementById('memberAnalysisSubtitle').textContent = 'Lives Utilization';
+                    updateLivesOnlyAnalysis();
+                }
+            }
+            
+            // Update dashboard
+            updateDashboard();
+        });
+
+        function formatDate(dateString) {
+            if (!dateString) return null;
+            try {
+                const date = new Date(dateString);
+                return date.toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' });
+            } catch (e) {
+                return dateString;
+            }
+        }
+
+        function formatCurrency(value) {
+            if (!value && value !== 0) return '₹0';
+            if (value === 0) return '₹0';
+            
+            if (value >= 10000000) {
+                return '₹' + (value / 10000000).toFixed(2) + 'Cr';
+            } else if (value >= 100000) {
+                return '₹' + (value / 100000).toFixed(2) + 'L';
+            } else if (value >= 1000) {
+                return '₹' + (value / 1000).toFixed(1) + 'K';
+            }
+            return '₹' + Math.round(value).toLocaleString('en-IN');
+        }
+
+        function formatPercent(value) {
+            return value.toFixed(1) + '%';
+        }
+
+        function isInProcess(row) {
+            const category = String(getValue(row, 'category') || '').toLowerCase().trim();
+            return category.includes('in process') || category.includes('processing');
+        }
+
+        function isSettled(row) {
+            const category = String(getValue(row, 'category') || '').toLowerCase().trim();
+            return category.includes('settled');
+        }
+
+        function isDenied(row) {
+            const category = String(getValue(row, 'category') || '').toLowerCase().trim();
+            return category.includes('denied');
+        }
+
+        function isEligibleForCalculation(row) {
+            return !isDenied(row);
+        }
+
+        function getValue(row, field) {
+            if (columnMapping[field] !== undefined) {
+                const propertyName = columnMapping[field];
+                const value = row[propertyName];
+                
+                if (value === null || value === undefined || value === '') {
+                    return '';
+                }
+                
+                return String(value).trim();
+            }
+            return '';
+        }
+
+        function getNumericValue(row, field) {
+            let val = getValue(row, field);
+            
+            if (!val || val === '' || val === null) {
+                return 0;
+            }
+            
+            if (typeof val === 'string') {
+                val = val.replace(/[₹,$,\s]/g, '');
+                
+                if (val === '' || val === '-') {
+                    return 0;
+                }
+                
+                val = parseFloat(val) || 0;
+            }
+            
+            return Number(val) || 0;
+        }
+
+        function populateFilters() {
+            // Disease filter
+            const diseases = [...new Set(rawData.map(r => getValue(r, 'disease')).filter(Boolean))].sort();
+            populateSelect('diseaseFilter', diseases, 'All Disease Types');
+            
+            // Relation filter
+            const relations = [...new Set(
+                rawData
+                    .map(r => {
+                        const val = getValue(r, 'relation');
+                        if (!val) return null;
+                        return normalizeRelation(val);
+                    })
+                    .filter(Boolean)
+              )].sort();
+            populateSelect('groupFilter', relations, 'All Relations');
+            
+            // Claim Type filter
+            const claimTypes = [...new Set(rawData.map(r => getValue(r, 'claimType')).filter(Boolean))].sort();
+            if (claimTypes.length > 0) {
+                populateSelect('claimTypeFilter', claimTypes, 'All Claim Types');
+            } else {
+                const statusTypes = ['Settled', 'In Process', 'Denied'];
+                populateSelect('claimTypeFilter', statusTypes, 'All Status');
+            }
+            
+            // Hospital filter
+            const hospitals = [...new Set(rawData.map(r => getValue(r, 'hospital')).filter(Boolean))].sort();
+            populateSelect('hospitalFilter', hospitals, 'All Hospitals');
+            
+            // Add event listeners
+            ['diseaseFilter', 'groupFilter', 'claimTypeFilter', 'hospitalFilter'].forEach(id => {
+                const el = document.getElementById(id);
+                if (el) el.addEventListener('change', applyFilters);
+            });
+            document.getElementById('claimIdSearch').addEventListener('input', debounce(applyFilters, 300));
+        }
+
+        function populateSelect(id, options, defaultText) {
+            const select = document.getElementById(id);
+            if (!select) return;
+            
+            select.innerHTML = `<option value="all">${defaultText}</option>`;
+            options.forEach(opt => {
+                if (opt) {
+                    const displayText = opt.length > 20 ? opt.substring(0, 20) + '...' : opt;
+                    select.innerHTML += `<option value="${opt}">${displayText}</option>`;
+                }
+            });
+        }
+
+        function debounce(func, wait) {
+            let timeout;
+            return function(...args) {
+                clearTimeout(timeout);
+                timeout = setTimeout(() => func.apply(this, args), wait);
+            };
+        }
+
+        function applyFilters() {
+            const diseaseFilter = document.getElementById('diseaseFilter').value;
+            const groupFilter = document.getElementById('groupFilter').value;
+            const claimTypeFilter = document.getElementById('claimTypeFilter').value;
+            const hospitalFilter = document.getElementById('hospitalFilter').value;
+            const claimIdTerm = document.getElementById('claimIdSearch').value.toLowerCase();
+
+            // Apply filters to filteredData only (for interactive charts)
+            filteredData = rawData.filter(row => {
+                const matchDisease = diseaseFilter === 'all' || getValue(row, 'disease') === diseaseFilter;
+
+                let matchGroup = true;
+                if (groupFilter !== 'all') {
+                    const rawGroupVal = getValue(row, 'relation');
+                    const normalizedGroupVal = normalizeRelation(rawGroupVal);
+                    matchGroup = normalizedGroupVal === groupFilter;
+                }
+
+                let matchClaimType = true;
+                if (claimTypeFilter !== 'all') {
+                    const claimTypeVal = getValue(row, 'claimType');
+                    matchClaimType = claimTypeVal === claimTypeFilter;
+                }
+
+                const matchHospital = hospitalFilter === 'all' || getValue(row, 'hospital') === hospitalFilter;
+                const matchClaimId = !claimIdTerm || 
+                    String(getValue(row, 'claimId') || '').toLowerCase().includes(claimIdTerm);
+                
+                // Apply cross-filters from interactive charts
+                const matchCrossDisease = !crossFilters.disease || getValue(row, 'disease') === crossFilters.disease;
+                
+                let matchCrossGroup = true;
+                if (crossFilters.group) {
+                    const rawGroupVal = getValue(row, 'relation');
+                    const normalizedGroupVal = normalizeRelation(rawGroupVal);
+                    matchCrossGroup = normalizedGroupVal === crossFilters.group;
+                }
+                
+                const matchCrossHospital = !crossFilters.hospital || getValue(row, 'hospital') === crossFilters.hospital;
+                
+                return matchDisease && matchGroup && matchClaimType && matchHospital && matchClaimId &&
+                       matchCrossDisease && matchCrossGroup && matchCrossHospital;
+            });
+
+            updateActiveFiltersBar();
+            
+            // Update ONLY interactive charts (Disease, Group, Hospital)
+            updateInteractiveCharts();
+            
+            // Update member analysis if exists
+            if (memberData && memberData.type === 'full') {
+                updateFullMemberAnalysis();
+            } else if (memberData && memberData.type === 'livesOnly') {
+                updateLivesOnlyAnalysis();
+            }
+            
+            // Update insights based on filtered data
+            generateInsights();
+        }
+
+        function updateActiveFiltersBar() {
+            const tags = [];
+            const diseaseFilter = document.getElementById('diseaseFilter').value;
+            const groupFilter = document.getElementById('groupFilter').value;
+            const claimTypeFilter = document.getElementById('claimTypeFilter').value;
+            const hospitalFilter = document.getElementById('hospitalFilter').value;
+            const claimIdTerm = document.getElementById('claimIdSearch').value;
+
+            if (diseaseFilter !== 'all') tags.push({ type: 'disease', value: diseaseFilter });
+            if (groupFilter !== 'all') tags.push({ type: 'group', value: groupFilter });
+            if (claimTypeFilter !== 'all') tags.push({ type: 'claimType', value: claimTypeFilter });
+            if (hospitalFilter !== 'all') tags.push({ type: 'hospital', value: hospitalFilter });
+            if (claimIdTerm) tags.push({ type: 'claimId', value: `ID: ${claimIdTerm}` });
+            
+            // Add cross-filter tags
+            Object.entries(crossFilters).forEach(([key, value]) => {
+                if (value) tags.push({ type: `cross-${key}`, value: value, isCross: true });
+            });
+
+            const bar = document.getElementById('activeFiltersBar');
+            const container = document.getElementById('activeFilterTags');
+            
+            if (tags.length > 0) {
+                bar.classList.remove('hidden');
+                container.innerHTML = tags.map(tag => `
+                    <span class="filter-tag ${tag.isCross ? 'bg-indigo-100 text-indigo-700' : ''}">
+                        ${tag.isCross ? '<i class="fas fa-link text-xs"></i>' : ''}
+                        ${tag.value}
+                        <span class="remove" onclick="removeFilter('${tag.type}')">×</span>
+                    </span>
+                `).join('');
+            } else {
+                bar.classList.add('hidden');
+            }
+
+            // Update filter indicators
+            ['disease', 'group', 'hospital'].forEach(type => {
+                const indicator = document.getElementById(`${type}FilterIndicator`);
+                if (indicator) {
+                    if (crossFilters[type] !== null) {
+                        indicator.classList.remove('hidden');
+                    } else {
+                        indicator.classList.add('hidden');
+                    }
+                }
+            });
+        }
+
+        function removeFilter(type) {
+            if (type.startsWith('cross-')) {
+                const crossType = type.replace('cross-', '');
+                crossFilters[crossType] = null;
+            } else if (type === 'disease') {
+                document.getElementById('diseaseFilter').value = 'all';
+            } else if (type === 'group') {
+                document.getElementById('groupFilter').value = 'all';
+            } else if (type === 'claimType') {
+                document.getElementById('claimTypeFilter').value = 'all';
+            } else if (type === 'hospital') {
+                document.getElementById('hospitalFilter').value = 'all';
+            } else if (type === 'claimId') {
+                document.getElementById('claimIdSearch').value = '';
+            }
+            applyFilters();
+        }
+
+        function resetFilters() {
+            document.getElementById('diseaseFilter').value = 'all';
+            document.getElementById('groupFilter').value = 'all';
+            document.getElementById('claimTypeFilter').value = 'all';
+            document.getElementById('hospitalFilter').value = 'all';
+            document.getElementById('claimIdSearch').value = '';
+            crossFilters = { disease: null, group: null, hospital: null };
+            filteredData = [...rawData];
+            updateActiveFiltersBar();
+            
+            // Update ONLY interactive charts
+            updateInteractiveCharts();
+            
+            // Update member analysis if exists
+            if (memberData && memberData.type === 'full') {
+                updateFullMemberAnalysis();
+            } else if (memberData && memberData.type === 'livesOnly') {
+                updateLivesOnlyAnalysis();
+            }
+            
+            generateInsights();
+        }
+
+        function clearChartFilter(type) {
+            crossFilters[type] = null;
+            applyFilters();
+        }
+
+        function applyCrossFilter(type, value) {
+            if (crossFilters[type] === value) {
+                crossFilters[type] = null; // Toggle off
+            } else {
+                crossFilters[type] = value;
+            }
+            applyFilters();
+        }
+
+        function updateDashboard() {
+            // Update STATIC elements using fullData
+            updateStaticKPIs();
+            updateStaticGauge();
+            updateStaticCharts();
+            updateInfographics();
+            
+            // Update interactive charts using filteredData
+            updateInteractiveCharts();
+            
+            // Generate insights based on filtered data
+            generateInsights();
+        }
+
+        // ============ UPDATED MEMBER ANALYSIS WITH DASHBOARD STYLING ============
+        function updateFullMemberAnalysis() {
+            if (!memberData || memberData.type !== 'full' || !memberData.data) return;
+            
+            const container = document.getElementById('memberAnalysisContent');
+            let html = '';
+            
+            // Group claims by employee code using filtered data
+            const employeeClaims = {};
+            
+            filteredData.forEach(row => {
+                if (!isEligibleForCalculation(row)) return;
+                
+                const empCode = getValue(row, 'employeeCode');
+                if (!empCode) return;
+                
+                const sumInsured = getNumericValue(row, 'sumInsured');
+                const claimed = getNumericValue(row, 'claimedAmount');
+                const paid = getNumericValue(row, 'paidAmount');
+                
+                if (!employeeClaims[empCode]) {
+                    employeeClaims[empCode] = {
+                        sumInsured: sumInsured,
+                        totalClaimed: 0,
+                        totalPaid: 0,
+                        claimCount: 0
+                    };
+                }
+                
+                employeeClaims[empCode].totalClaimed += claimed;
+                employeeClaims[empCode].totalPaid += paid;
+                employeeClaims[empCode].claimCount++;
+            });
+            
+            // Process each sum insured bucket
+            memberData.data.forEach(member => {
+                const bucket = member.bucket || `₹${formatCurrency(member.sumInsured)}`;
+                const targetSumInsured = member.sumInsured;
+                const totalLives = member.lives;
+                
+                // Find employees in this bucket
+                const employeesInBucket = [];
+                const employeeCodes = new Set();
+                
+                Object.entries(employeeClaims).forEach(([empCode, data]) => {
+                    if (Math.abs(data.sumInsured - targetSumInsured) < 1000) {
+                        employeesInBucket.push({ empCode, ...data });
+                        employeeCodes.add(empCode);
+                    }
+                });
+                
+                const uniqueClaimants = employeeCodes.size;
+                const livesPercent = totalLives > 0 ? (uniqueClaimants / totalLives * 100) : 0;
+                
+                // Calculate percentages
+                const claimedPercentages = [];
+                const paidPercentages = [];
+                
+                employeesInBucket.forEach(emp => {
+                    if (emp.sumInsured > 0) {
+                        claimedPercentages.push((emp.totalClaimed / emp.sumInsured) * 100);
+                        paidPercentages.push((emp.totalPaid / emp.sumInsured) * 100);
+                    }
+                });
+                
+                // Create buckets
+                const claimedBuckets = createBuckets(claimedPercentages);
+                const paidBuckets = createBuckets(paidPercentages);
+                
+                html += `
+                    <div class="member-analysis-card">
+                        <div class="member-header">
+                            <div>
+                                <h4 class="font-bold text-purple-800">${bucket}</h4>
+                                <p class="text-xs text-gray-500 mt-1">${totalLives} Lives | ₹${formatCurrency(targetSumInsured)} per life</p>
+                            </div>
+                            <div class="member-badge">
+                                <i class="fas fa-users mr-1"></i>
+                                ${uniqueClaimants} Claimants
+                            </div>
+                        </div>
+                        
+                        <div class="member-stats-grid">
+                            <div class="member-stat-box">
+                                <div class="member-stat-label">Lives %</div>
+                                <div class="member-stat-value">${formatPercent(livesPercent)}</div>
+                            </div>
+                            <div class="member-stat-box">
+                                <div class="member-stat-label">Avg Claimed %</div>
+                                <div class="member-stat-value">${formatPercent(claimedPercentages.reduce((a,b)=>a+b,0)/(claimedPercentages.length||1))}</div>
+                            </div>
+                            <div class="member-stat-box">
+                                <div class="member-stat-label">Avg Paid %</div>
+                                <div class="member-stat-value">${formatPercent(paidPercentages.reduce((a,b)=>a+b,0)/(paidPercentages.length||1))}</div>
+                            </div>
+                        </div>
+                        
+                        <div class="distribution-grid">
+                            ${generateBucketColumn('Claimed %', claimedBuckets, 'amber', uniqueClaimants)}
+                            ${generateBucketColumn('Paid %', paidBuckets, 'green', uniqueClaimants)}
+                        </div>
+                        
+                        ${uniqueClaimants === 0 ? '<p class="text-gray-400 text-xs text-center py-4 italic">No claimants in this bucket with current filters</p>' : ''}
+                    </div>
+                `;
+            });
+            
+            container.innerHTML = html || '<div class="member-analysis-card text-center py-8 text-gray-500">No member data matches current filters</div>';
+        }
+
+        function createBuckets(percentages) {
+            const buckets = {
+                '0-25%': { count: 0, percent: 0 },
+                '26-50%': { count: 0, percent: 0 },
+                '51-75%': { count: 0, percent: 0 },
+                '76-100%': { count: 0, percent: 0 },
+                '>100%': { count: 0, percent: 0 }
+            };
+            
+            percentages.forEach(pct => {
+                if (pct <= 25) buckets['0-25%'].count++;
+                else if (pct <= 50) buckets['26-50%'].count++;
+                else if (pct <= 75) buckets['51-75%'].count++;
+                else if (pct <= 100) buckets['76-100%'].count++;
+                else buckets['>100%'].count++;
+            });
+            
+            const total = percentages.length;
+            Object.keys(buckets).forEach(key => {
+                buckets[key].percent = total > 0 ? (buckets[key].count / total * 100) : 0;
+            });
+            
+            return buckets;
+        }
+
+        function generateBucketColumn(title, buckets, color, total) {
+            const colorClasses = {
+                amber: 'bg-amber-500',
+                green: 'bg-green-500'
+            };
+            
+            return `
+                <div class="distribution-column">
+                    <div class="column-title">
+                        <i class="fas fa-${color === 'amber' ? 'file-invoice' : 'check-circle'} text-${color}-500"></i>
+                        ${title}
+                    </div>
+                    ${Object.entries(buckets).map(([bucket, data]) => `
+                        <div class="bucket-item">
+                            <div class="bucket-header">
+                                <span class="bucket-name">${bucket}</span>
+                                <span class="bucket-numbers">${data.count} emp | ${formatPercent(data.percent)}</span>
+                            </div>
+                            <div class="bucket-bar-bg">
+                                <div class="bucket-bar-fill ${colorClasses[color]}" style="width: ${data.percent}%"></div>
+                            </div>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+        }
+
+        function updateLivesOnlyAnalysis() {
+            if (!memberData || memberData.type !== 'livesOnly' || !memberData.lives) return;
+            
+            const container = document.getElementById('memberAnalysisContent');
+            const totalLives = memberData.lives.reduce((a, b) => a + b, 0);
+            
+            // Count unique claimants from filtered data
+            const uniqueClaimants = new Set();
+            filteredData.forEach(row => {
+                if (isEligibleForCalculation(row)) {
+                    const empCode = getValue(row, 'employeeCode');
+                    if (empCode) uniqueClaimants.add(empCode);
+                }
+            });
+            
+            const claimantsCount = uniqueClaimants.size;
+            const livesPercent = totalLives > 0 ? (claimantsCount / totalLives * 100) : 0;
+            
+            const html = `
+                <div class="member-analysis-card">
+                    <div class="member-header">
+                        <div>
+                            <h4 class="font-bold text-blue-800">Lives Utilization</h4>
+                            <p class="text-xs text-gray-500 mt-1">Based on current filters</p>
+                        </div>
+                        <div class="member-badge" style="background: #dbeafe; color: #1e40af;">
+                            <i class="fas fa-users mr-1"></i>
+                            ${claimantsCount} of ${totalLives} Lives
+                        </div>
+                    </div>
+                    
+                    <div class="member-stats-grid">
+                        <div class="member-stat-box">
+                            <div class="member-stat-label">Total Lives</div>
+                            <div class="member-stat-value">${totalLives}</div>
+                        </div>
+                        <div class="member-stat-box">
+                            <div class="member-stat-label">Claimants</div>
+                            <div class="member-stat-value">${claimantsCount}</div>
+                        </div>
+                        <div class="member-stat-box">
+                            <div class="member-stat-label">Utilization</div>
+                            <div class="member-stat-value">${formatPercent(livesPercent)}</div>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-4">
+                        <div class="flex justify-between text-sm mb-2">
+                            <span class="text-gray-600">Utilization Rate</span>
+                            <span class="font-bold">${formatPercent(livesPercent)}</span>
+                        </div>
+                        <div class="w-full bg-gray-200 rounded-full h-3 overflow-hidden">
+                            <div class="bg-blue-600 h-3 rounded-full transition-all duration-500" style="width: ${Math.min(livesPercent, 100)}%"></div>
+                        </div>
+                        <p class="text-xs text-gray-500 mt-2">
+                            <i class="fas fa-info-circle mr-1"></i>
+                            ${claimantsCount} out of ${totalLives} employees have filed claims (excluding denied)
+                        </p>
+                    </div>
+                </div>
+            `;
+            
+            container.innerHTML = html;
+        }
+
+        // ============ STATIC FUNCTIONS (Use fullData) ============
+
+        function updateStaticKPIs() {
+            // Calculate totals from FULL data (not filtered)
+            const totalClaimed = fullData.reduce((sum, r) => sum + getNumericValue(r, 'claimedAmount'), 0);
+            const totalPaid = fullData.reduce((sum, r) => sum + getNumericValue(r, 'paidAmount'), 0);
+            
+            // Calculate payout ratio
+            const payoutRatio = totalClaimed > 0 ? (totalPaid / totalClaimed * 100) : 0;
+            
+            // Find In Process claims
+            const inProcessClaims = fullData.filter(r => isInProcess(r));
+            
+            // Calculate outstanding amount
+            const outstandingAmount = inProcessClaims.reduce((sum, r) => {
+                return sum + getNumericValue(r, 'outstandingAmount');
+            }, 0);
+            
+            // Update Payout Ratio KPI
+            document.getElementById('kpiPayoutRatio').textContent = `${payoutRatio.toFixed(1)}%`;
+            
+            const payoutBar = document.getElementById('payoutRatioBar');
+            if(payoutBar) {
+                payoutBar.style.width = `${Math.min(payoutRatio, 100)}%`;
+                payoutBar.className = `h-1.5 rounded-full transition-all duration-500 ${
+                    payoutRatio >= 85 ? 'bg-green-500' : payoutRatio >= 70 ? 'bg-green-500' : 'bg-amber-500'
+                }`;
+            }
+            
+            const kpiPayoutTrend = document.getElementById('kpiPayoutTrend');
+            if(kpiPayoutTrend) {
+                kpiPayoutTrend.innerHTML = payoutRatio >= 85 
+                    ? '<span class="text-green-600 text-xs">Excellent</span>'
+                    : payoutRatio >= 70 
+                        ? '<span class="text-green-600 text-xs">Good</span>'
+                        : '<span class="text-amber-600 text-xs">Review</span>';
+            }
+            
+            // Update Total Claims Paid KPI
+            document.getElementById('kpiTotalClaims').textContent = formatCurrency(totalPaid);
+            document.getElementById('kpiClaimsCount').textContent = `${fullData.length} claims`;
+            
+            // Update Outstanding KPI
+            document.getElementById('kpiOutstanding').textContent = formatCurrency(outstandingAmount);
+            document.getElementById('kpiOutstandingCount').textContent = `${inProcessClaims.length} pending`;
+            
+            const kpiOutstanding = document.getElementById('kpiOutstanding');
+            if (outstandingAmount > 0) {
+                kpiOutstanding.className = 'kpi-value text-orange-600';
+            } else {
+                kpiOutstanding.className = 'kpi-value text-green-600';
+            }
+            
+            // Calculate average claim
+            const settledClaims = fullData.filter(r => isSettled(r));
+            const paidAmounts = settledClaims.map(r => getNumericValue(r, 'paidAmount')).filter(v => v > 0);
+            const avgClaim = paidAmounts.length > 0 ? paidAmounts.reduce((a, b) => a + b, 0) / paidAmounts.length : 0;
+            
+            // Calculate median
+            const sortedAmounts = [...paidAmounts].sort((a, b) => a - b);
+            const medianClaim = sortedAmounts.length > 0 
+                ? sortedAmounts[Math.floor(sortedAmounts.length / 2)] 
+                : 0;
+            
+            document.getElementById('kpiAvgClaim').textContent = formatCurrency(avgClaim);
+            document.getElementById('kpiMedianClaim').textContent = `Median: ${formatCurrency(medianClaim)}`;
+            
+            // High value claims (above ₹1L)
+            const highValueThreshold = 100000;
+            const highValueClaims = settledClaims.filter(r => getNumericValue(r, 'paidAmount') > highValueThreshold).length;
+            
+            document.getElementById('kpiHighValue').textContent = highValueClaims;
+            document.getElementById('kpiHighValuePct').textContent = `${((highValueClaims / Math.max(settledClaims.length, 1)) * 100).toFixed(1)}% of settled`;
+            
+            // Update claim ratio based on premium
+            updateStaticPremiumRatio();
+        }
+
+        function updateStaticPremiumRatio() {
+            const premium = parseFloat(initialPremium) || 0;
+            const totalPaid = fullData.reduce((sum, r) => sum + getNumericValue(r, 'paidAmount'), 0);
+            
+            const inProcessClaims = fullData.filter(r => isInProcess(r));
+            const outstandingAmount = inProcessClaims.reduce((sum, r) => {
+                return sum + getNumericValue(r, 'outstandingAmount');
+            }, 0);
+            
+            const totalLiability = totalPaid + outstandingAmount;
+            
+            const kpiRatio = document.getElementById('kpiPremiumRatio');
+            const ratioBar = document.getElementById('premiumRatioBar');
+            const trend = document.getElementById('kpiPremiumTrend');
+
+            if (premium > 0) {
+                const premiumRatio = (totalLiability / premium * 100);
+                
+                if(kpiRatio) kpiRatio.textContent = premiumRatio.toFixed(1) + '%';
+                
+                if(ratioBar) {
+                    ratioBar.style.width = `${Math.min(premiumRatio, 100)}%`;
+                    ratioBar.className = `h-1.5 rounded-full transition-all duration-500 ${
+                        premiumRatio <= 70 ? 'bg-green-500' : premiumRatio <= 85 ? 'bg-amber-500' : 'bg-red-500'
+                    }`;
+                }
+                
+                if(trend) {
+                    trend.innerHTML = premiumRatio <= 70 
+                        ? '<span class="text-green-600 text-xs">Healthy</span>'
+                        : premiumRatio <= 85 
+                            ? '<span class="text-amber-600 text-xs">Caution</span>'
+                            : '<span class="text-red-600 text-xs">Critical</span>';
+                }
+            } else {
+                if(kpiRatio) kpiRatio.textContent = '--%';
+                if(ratioBar) ratioBar.style.width = '0%';
+                if(trend) trend.innerHTML = '<span class="text-gray-400 text-xs">No premium</span>';
+            }
+        }
+
+        function updateStaticGauge() {
+            const ctx = document.getElementById('gaugeChart').getContext('2d');
+            
+            const premium = parseFloat(initialPremium) || 0;
+            const totalPaid = fullData.reduce((sum, r) => sum + getNumericValue(r, 'paidAmount'), 0);
+            
+            const inProcessClaims = fullData.filter(r => isInProcess(r));
+            const outstandingAmount = inProcessClaims.reduce((sum, r) => {
+                return sum + getNumericValue(r, 'outstandingAmount');
+            }, 0);
+            
+            const totalLiability = totalPaid + outstandingAmount;
+            const claimRatio = premium > 0 ? (totalLiability / premium * 100) : 0;
+            
+            const gaugeMessage = document.getElementById('gaugeMessage');
+            gaugeMessage.innerHTML = `
+                <div class="text-center">
+                    <p class="font-bold text-sm text-gray-800">${claimRatio.toFixed(1)}% Claim Ratio</p>
+                    <p class="text-xs text-gray-600">Premium: ${formatCurrency(premium)}</p>
+                    <p class="text-xs text-gray-600">Liability: ${formatCurrency(totalLiability)}</p>
+                </div>
+            `;
+            
+            if (charts.gauge) charts.gauge.destroy();
+            
+            charts.gauge = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Claim Ratio %', 'Remaining'],
+                    datasets: [{
+                        data: [Math.min(claimRatio, 100), Math.max(100 - claimRatio, 0)],
+                        backgroundColor: [
+                            claimRatio >= 85 ? '#ef4444' : claimRatio >= 70 ? '#f59e0b' : '#10b981',
+                            '#e5e7eb'
+                        ],
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    cutout: '75%',
+                    rotation: -90,
+                    circumference: 180,
+                    events: [], // Non-interactive
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: { enabled: false }
+                    }
+                },
+                plugins: [{
+                    id: 'gaugeText',
+                    beforeDraw: (chart) => {
+                        const { ctx, width, height } = chart;
+                        ctx.save();
+                        ctx.textAlign = 'center';
+                        ctx.textBaseline = 'middle';
+                        
+                        ctx.font = 'bold 24px Inter';
+                        ctx.fillStyle = claimRatio >= 85 ? '#ef4444' : claimRatio >= 70 ? '#f59e0b' : '#10b981';
+                        ctx.fillText(`${claimRatio.toFixed(1)}%`, width / 2, height / 2 - 10);
+                        
+                        ctx.font = '12px Inter';
+                        ctx.fillStyle = '#64748b';
+                        ctx.fillText('Claim Ratio', width / 2, height / 2 + 15);
+                        
+                        ctx.restore();
+                    }
+                }]
+            });
+        }
+
+        function updateStaticCharts() {
+            updateClaimTypeChart();
+            updateClaimTypeStatusTable();
+            updateDistributionChart();
+        }
+
+        function updateClaimTypeChart() {
+            const ctx = document.getElementById('claimTypeChart').getContext('2d');
+            const grouped = {
+                'Settled': { count: 0, amount: 0 },
+                'In Process': { count: 0, amount: 0 },
+                'Denied': { count: 0, amount: 0 }
+            };
+            
+            fullData.forEach(row => {
+                if (isSettled(row)) {
+                    grouped['Settled'].count++;
+                    grouped['Settled'].amount += getNumericValue(row, 'paidAmount');
+                } else if (isDenied(row)) {
+                    grouped['Denied'].count++;
+                    grouped['Denied'].amount += getNumericValue(row, 'claimedAmount');
+                } else if (isInProcess(row)) {
+                    grouped['In Process'].count++;
+                    grouped['In Process'].amount += getNumericValue(row, 'totalAmount');
+                } else {
+                    grouped['Settled'].count++;
+                    grouped['Settled'].amount += getNumericValue(row, 'paidAmount');
+                }
+            });
+            
+            const totalCount = Object.values(grouped).reduce((sum, g) => sum + g.count, 0);
+            
+            const getStatusGradient = (label) => {
+                const gradient = ctx.createLinearGradient(0, 0, 0, ctx.canvas.height);
+                if (label === 'Settled') {
+                    gradient.addColorStop(0, '#34d399');
+                    gradient.addColorStop(1, '#059669');
+                } else if (label === 'In Process') {
+                    gradient.addColorStop(0, '#fbbf24');
+                    gradient.addColorStop(1, '#d97706');
+                } else {
+                    gradient.addColorStop(0, '#f87171');
+                    gradient.addColorStop(1, '#dc2626');
+                }
+                return gradient;
+            };
+            
+            const labels = Object.keys(grouped).filter(k => grouped[k].count > 0);
+            const backgroundColors = labels.map(l => getStatusGradient(l));
+            const dataValues = labels.map(l => grouped[l].count);
+
+            if (charts.claimType) charts.claimType.destroy();
+            charts.claimType = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        data: dataValues,
+                        backgroundColor: backgroundColors,
+                        borderWidth: 1,
+                        borderColor: '#fff'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    cutout: '60%',
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: { 
+                                padding: 6, 
+                                font: { size: 9 }, 
+                                usePointStyle: true 
+                            }
+                        },
+                        tooltip: { 
+                            enabled: true,
+                            callbacks: {
+                                label: (context) => {
+                                    const label = labels[context.dataIndex];
+                                    const data = grouped[label];
+                                    const percentage = totalCount > 0 ? ((data.count / totalCount) * 100).toFixed(1) : 0;
+                                    return [
+                                        `${label}: ${data.count} claims (${percentage}%)`,
+                                        `Amount: ${formatCurrency(data.amount)}`
+                                    ];
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        function updateClaimTypeStatusTable() {
+            const claimTypes = {};
+            const statuses = ['Settled', 'In Process', 'Denied'];
+            
+            fullData.forEach(row => {
+                const claimType = getValue(row, 'claimType') || 'Unknown';
+                let status = 'Unknown';
+                
+                if (isSettled(row)) status = 'Settled';
+                else if (isInProcess(row)) status = 'In Process';
+                else if (isDenied(row)) status = 'Denied';
+                
+                if (!claimTypes[claimType]) {
+                    claimTypes[claimType] = {
+                        'Settled': 0,
+                        'In Process': 0,
+                        'Denied': 0,
+                        'Total': 0
+                    };
+                }
+                
+                claimTypes[claimType][status]++;
+                claimTypes[claimType]['Total']++;
+            });
+            
+            const sortedTypes = Object.entries(claimTypes).sort((a, b) => b[1].Total - a[1].Total).slice(0, 5);
+            
+            const statusTotals = {
+                'Settled': 0,
+                'In Process': 0,
+                'Denied': 0,
+                'Total': 0
+            };
+            
+            sortedTypes.forEach(([_, data]) => {
+                statuses.forEach(s => statusTotals[s] += data[s]);
+                statusTotals.Total += data.Total;
+            });
+            
+            let html = `
+                <table class="w-full text-xs">
+                    <thead>
+                        <tr class="bg-gray-100">
+                            <th class="px-1 py-2 text-left font-semibold">Claim Type</th>
+                            <th class="px-1 py-2 text-center font-semibold text-green-700">Settled</th>
+                            <th class="px-1 py-2 text-center font-semibold text-amber-600">In Process</th>
+                            <th class="px-1 py-2 text-center font-semibold text-red-600">Denied</th>
+                            <th class="px-1 py-2 text-center font-semibold">Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+            `;
+            
+            sortedTypes.forEach(([claimType, data]) => {
+                const settledPct = data.Total > 0 ? ((data.Settled / data.Total) * 100).toFixed(0) : 0;
+                const inProcessPct = data.Total > 0 ? ((data['In Process'] / data.Total) * 100).toFixed(0) : 0;
+                const deniedPct = data.Total > 0 ? ((data.Denied / data.Total) * 100).toFixed(0) : 0;
+                
+                html += `
+                    <tr class="border-b hover:bg-gray-50">
+                        <td class="px-1 py-2 font-medium text-left">${claimType.length > 15 ? claimType.substring(0, 15) + '...' : claimType}</td>
+                        <td class="px-1 py-2 text-center">
+                            <span class="font-semibold">${data.Settled}</span>
+                            <span class="text-gray-400 text-[9px] ml-1">(${settledPct}%)</span>
+                        </td>
+                        <td class="px-1 py-2 text-center">
+                            <span class="font-semibold">${data['In Process']}</span>
+                            <span class="text-gray-400 text-[9px] ml-1">(${inProcessPct}%)</span>
+                        </td>
+                        <td class="px-1 py-2 text-center">
+                            <span class="font-semibold">${data.Denied}</span>
+                            <span class="text-gray-400 text-[9px] ml-1">(${deniedPct}%)</span>
+                        </td>
+                        <td class="px-1 py-2 text-center font-bold">${data.Total}</td>
+                    </tr>
+                `;
+            });
+            
+            const totalSettledPct = statusTotals.Total > 0 ? ((statusTotals.Settled / statusTotals.Total) * 100).toFixed(0) : 0;
+            const totalInProcessPct = statusTotals.Total > 0 ? ((statusTotals['In Process'] / statusTotals.Total) * 100).toFixed(0) : 0;
+            const totalDeniedPct = statusTotals.Total > 0 ? ((statusTotals.Denied / statusTotals.Total) * 100).toFixed(0) : 0;
+            
+            html += `
+                    <tr class="bg-gray-100 font-bold">
+                        <td class="px-1 py-2 text-left">Total</td>
+                        <td class="px-1 py-2 text-center text-green-700">${statusTotals.Settled} <span class="text-gray-500 text-[9px]">(${totalSettledPct}%)</span></td>
+                        <td class="px-1 py-2 text-center text-amber-600">${statusTotals['In Process']} <span class="text-gray-500 text-[9px]">(${totalInProcessPct}%)</span></td>
+                        <td class="px-1 py-2 text-center text-red-600">${statusTotals.Denied} <span class="text-gray-500 text-[9px]">(${totalDeniedPct}%)</span></td>
+                        <td class="px-1 py-2 text-center">${statusTotals.Total}</td>
+                    </tr>
+                </tbody>
+                </table>
+            `;
+            
+            document.getElementById('claimTypeStatusTable').innerHTML = html;
+        }
+
+        function updateDistributionChart() {
+            const ctx = document.getElementById('distributionChart').getContext('2d');
+            const amounts = fullData
+                .filter(r => isSettled(r))
+                .map(r => getNumericValue(r, 'paidAmount'))
+                .filter(v => v > 0);
+            
+            const buckets = {
+                '0-10K': 0, '10-25K': 0, '25-50K': 0, '50K-1L': 0,
+                '1-2.5L': 0, '2.5-5L': 0, '5L+': 0
+            };
+            
+            amounts.forEach(amt => {
+                if (amt <= 10000) buckets['0-10K']++;
+                else if (amt <= 25000) buckets['10-25K']++;
+                else if (amt <= 50000) buckets['25-50K']++;
+                else if (amt <= 100000) buckets['50K-1L']++;
+                else if (amt <= 250000) buckets['1-2.5L']++;
+                else if (amt <= 500000) buckets['2.5-5L']++;
+                else buckets['5L+']++;
+            });
+
+            const totalClaims = amounts.length;
+            
+            const gradientBars = Object.keys(buckets).map((_, i) => {
+                const startHue = 320 - (i * (40 / Math.max(Object.keys(buckets).length, 1)));
+                const gradient = ctx.createLinearGradient(0, 0, 0, ctx.canvas.height);
+                gradient.addColorStop(0, `hsla(${startHue}, 90%, 65%, 0.9)`);
+                gradient.addColorStop(1, `hsla(${startHue - 20}, 90%, 50%, 0.9)`);
+                return gradient;
+            });
+
+            if (charts.distribution) charts.distribution.destroy();
+            charts.distribution = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: Object.keys(buckets),
+                    datasets: [{
+                        label: 'Claims',
+                        data: Object.values(buckets),
+                        backgroundColor: gradientBars,
+                        borderRadius: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            enabled: true,
+                            callbacks: {
+                                label: (context) => {
+                                    const bucketClaims = context.raw;
+                                    const percentage = totalClaims > 0 ? ((bucketClaims / totalClaims) * 100).toFixed(1) : 0;
+                                    return `${bucketClaims} claims (${percentage}%)`;
+                                },
+                                afterLabel: (context) => {
+                                    const bucket = context.label;
+                                    let min = 0, max = 0;
+                                    if (bucket === '0-10K') { min = 0; max = 10000; }
+                                    else if (bucket === '10-25K') { min = 10001; max = 25000; }
+                                    else if (bucket === '25-50K') { min = 25001; max = 50000; }
+                                    else if (bucket === '50K-1L') { min = 50001; max = 100000; }
+                                    else if (bucket === '1-2.5L') { min = 100001; max = 250000; }
+                                    else if (bucket === '2.5-5L') { min = 250001; max = 500000; }
+                                    else if (bucket === '5L+') { min = 500001; max = '∞'; }
+                                    return `Range: ₹${min.toLocaleString()} - ${max === '∞' ? '∞' : '₹' + max.toLocaleString()}`;
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        y: { 
+                            beginAtZero: true, 
+                            ticks: { font: { size: 9 } }, 
+                            grid: { color: '#f1f5f9' } 
+                        },
+                        x: { 
+                            ticks: { font: { size: 9 } }, 
+                            grid: { display: false } 
+                        }
+                    }
+                }
+            });
+        }
+
+        function updateInfographics() {
+            updateSelfDependentInfographic();
+            updateReimbursementInfographic();
+        }
+
+        function updateSelfDependentInfographic() {
+            let selfCount = 0;
+            let dependentCount = 0;
+            let selfAmount = 0;
+            let dependentAmount = 0;
+            
+            fullData.forEach(row => {
+                const relation = normalizeRelation(getValue(row, 'relation') || '');
+                const paid = getNumericValue(row, 'paidAmount');
+                
+                if (relation === 'Self') {
+                    selfCount++;
+                    selfAmount += paid;
+                } else if (relation && relation !== 'Unknown') {
+                    dependentCount++;
+                    dependentAmount += paid;
+                }
+            });
+            
+            const total = selfCount + dependentCount;
+            const selfPercent = total > 0 ? (selfCount / total * 100).toFixed(1) : 0;
+            const dependentPercent = total > 0 ? (dependentCount / total * 100).toFixed(1) : 0;
+            
+            const totalAmount = selfAmount + dependentAmount;
+            const selfAmountPercent = totalAmount > 0 ? (selfAmount / totalAmount * 100).toFixed(1) : 0;
+            const dependentAmountPercent = totalAmount > 0 ? (dependentAmount / totalAmount * 100).toFixed(1) : 0;
+            
+            const content = document.getElementById('selfDependentContent');
+            content.innerHTML = `
+                <div class="space-y-3">
+                    <div>
+                        <div class="stat-row" title="Self: ${selfCount} claims (${selfPercent}% of total) - Amount: ${formatCurrency(selfAmount)}">
+                            <span class="stat-label"><span class="legend-dot bg-blue-500"></span>Self</span>
+                            <span class="stat-value">${selfCount} <span class="stat-percent">(${selfPercent}%)</span></span>
+                        </div>
+                        <div class="stat-row" title="Dependent: ${dependentCount} claims (${dependentPercent}% of total) - Amount: ${formatCurrency(dependentAmount)}">
+                            <span class="stat-label"><span class="legend-dot bg-emerald-500"></span>Dependent</span>
+                            <span class="stat-value">${dependentCount} <span class="stat-percent">(${dependentPercent}%)</span></span>
+                        </div>
+                    </div>
+                    
+                    <div class="segmented-progress" title="Self: ${selfPercent}% | Dependent: ${dependentPercent}%">
+                        <div class="segment bg-blue-500" style="width: ${selfPercent}%"></div>
+                        <div class="segment bg-emerald-500" style="width: ${dependentPercent}%"></div>
+                    </div>
+                    
+                    <div class="pt-2 border-t border-gray-200">
+                        <div class="stat-row" title="Self amount: ${formatCurrency(selfAmount)} (${selfAmountPercent}% of total)">
+                            <span class="stat-label">Self Amount</span>
+                            <span class="stat-value">${formatCurrency(selfAmount)} <span class="stat-percent">(${selfAmountPercent}%)</span></span>
+                        </div>
+                        <div class="stat-row" title="Dependent amount: ${formatCurrency(dependentAmount)} (${dependentAmountPercent}% of total)">
+                            <span class="stat-label">Dependent Amount</span>
+                            <span class="stat-value">${formatCurrency(dependentAmount)} <span class="stat-percent">(${dependentAmountPercent}%)</span></span>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function updateReimbursementInfographic() {
+            let cashlessCount = 0;
+            let reimbursementCount = 0;
+            let cashlessAmount = 0;
+            let reimbursementAmount = 0;
+            
+            fullData.forEach(row => {
+                const claimType = (getValue(row, 'claimType') || '').toLowerCase();
+                const paid = getNumericValue(row, 'paidAmount');
+                
+                if (claimType.includes('cashless')) {
+                    cashlessCount++;
+                    cashlessAmount += paid;
+                } else if (claimType.includes('reimbursement') || claimType.includes('reimb')) {
+                    reimbursementCount++;
+                    reimbursementAmount += paid;
+                } else {
+                    reimbursementCount++;
+                    reimbursementAmount += paid;
+                }
+            });
+            
+            const total = cashlessCount + reimbursementCount;
+            const cashlessPercent = total > 0 ? (cashlessCount / total * 100).toFixed(1) : 0;
+            const reimbursementPercent = total > 0 ? (reimbursementCount / total * 100).toFixed(1) : 0;
+            
+            const totalAmount = cashlessAmount + reimbursementAmount;
+            const cashlessAmountPercent = totalAmount > 0 ? (cashlessAmount / totalAmount * 100).toFixed(1) : 0;
+            const reimbursementAmountPercent = totalAmount > 0 ? (reimbursementAmount / totalAmount * 100).toFixed(1) : 0;
+            
+            const content = document.getElementById('reimbursementContent');
+            content.innerHTML = `
+                <div class="space-y-3">
+                    <div>
+                        <div class="stat-row" title="Cashless: ${cashlessCount} claims (${cashlessPercent}% of total) - Amount: ${formatCurrency(cashlessAmount)}">
+                            <span class="stat-label"><span class="legend-dot bg-purple-500"></span>Cashless</span>
+                            <span class="stat-value">${cashlessCount} <span class="stat-percent">(${cashlessPercent}%)</span></span>
+                        </div>
+                        <div class="stat-row" title="Reimbursement: ${reimbursementCount} claims (${reimbursementPercent}% of total) - Amount: ${formatCurrency(reimbursementAmount)}">
+                            <span class="stat-label"><span class="legend-dot bg-amber-500"></span>Reimbursement</span>
+                            <span class="stat-value">${reimbursementCount} <span class="stat-percent">(${reimbursementPercent}%)</span></span>
+                        </div>
+                    </div>
+                    
+                    <div class="segmented-progress" title="Cashless: ${cashlessPercent}% | Reimbursement: ${reimbursementPercent}%">
+                        <div class="segment bg-purple-500" style="width: ${cashlessPercent}%"></div>
+                        <div class="segment bg-amber-500" style="width: ${reimbursementPercent}%"></div>
+                    </div>
+                    
+                    <div class="pt-2 border-t border-gray-200">
+                        <div class="stat-row" title="Cashless amount: ${formatCurrency(cashlessAmount)} (${cashlessAmountPercent}% of total)">
+                            <span class="stat-label">Cashless Amount</span>
+                            <span class="stat-value">${formatCurrency(cashlessAmount)} <span class="stat-percent">(${cashlessAmountPercent}%)</span></span>
+                        </div>
+                        <div class="stat-row" title="Reimbursement amount: ${formatCurrency(reimbursementAmount)} (${reimbursementAmountPercent}% of total)">
+                            <span class="stat-label">Reimbursement Amount</span>
+                            <span class="stat-value">${formatCurrency(reimbursementAmount)} <span class="stat-percent">(${reimbursementAmountPercent}%)</span></span>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // ============ INTERACTIVE FUNCTIONS (Use filteredData) ============
+
+        function updateInteractiveCharts() {
+            updateDiseaseChart();
+            updateGroupChart();
+            updateHospitalChart();
+        }
+
+        function updateDiseaseChart() {
+            const ctx = document.getElementById('diseaseChart').getContext('2d');
+            const grouped = {};
+            
+            filteredData.forEach(row => {
+                const disease = getValue(row, 'disease') || 'Unknown';
+                if (!grouped[disease]) grouped[disease] = { paid: 0, claimed: 0, count: 0 };
+                grouped[disease].paid += getNumericValue(row, 'paidAmount');
+                grouped[disease].count++;
+            });
+
+            const sorted = Object.entries(grouped).sort((a, b) => b[1].paid - a[1].paid).slice(0, 8);
+            
+            const gradientColors = sorted.map((_, i) => {
+                const startHue = 240 + (i * (60 / Math.max(sorted.length, 1)));
+                const gradient = ctx.createLinearGradient(0, 0, ctx.canvas.width, 0);
+                gradient.addColorStop(0, `hsla(${startHue}, 80%, 65%, 0.9)`);
+                gradient.addColorStop(1, `hsla(${startHue + 30}, 90%, 55%, 0.9)`);
+                return gradient;
+            });
+            
+            if (charts.disease) charts.disease.destroy();
+            charts.disease = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: sorted.map(s => s[0].length > 20 ? s[0].substring(0, 20) + '...' : s[0]),
+                    datasets: [{
+                        label: 'Paid Amount',
+                        data: sorted.map(s => s[1].paid),
+                        backgroundColor: sorted.map((s, i) => crossFilters.disease === s[0] ? '#1e293b' : gradientColors[i]),
+                        borderWidth: sorted.map((s) => crossFilters.disease === s[0] ? 2 : 0),
+                        borderColor: '#000000',
+                        borderRadius: 4
+                    }]
+                },
+                options: {
+                    indexAxis: 'y',
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    onClick: (e, elements) => {
+                        if (elements.length > 0) {
+                            const index = elements[0].index;
+                            const disease = sorted[index][0];
+                            applyCrossFilter('disease', disease);
+                        }
+                    },
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            callbacks: {
+                                title: (items) => sorted[items[0].dataIndex][0],
+                                label: (context) => {
+                                    const data = sorted[context.dataIndex][1];
+                                    return [
+                                        `Paid: ${formatCurrency(data.paid)}`,
+                                        `Claims: ${data.count}`
+                                    ];
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            beginAtZero: true,
+                            ticks: { callback: (v) => formatCurrency(v) },
+                            grid: { color: '#f1f5f9' }
+                        },
+                        y: {
+                            ticks: {  },
+                            grid: { display: false }
+                        }
+                    },
+                    onHover: (e, elements) => {
+                        e.native.target.style.cursor = elements.length ? 'pointer' : 'default';
+                    }
+                }
+            });
+        }
+
+        function updateGroupChart() {
+            const ctx = document.getElementById('groupChart').getContext('2d');
+            const grouped = {};
+            
+            filteredData.forEach(row => {
+                const relation = getValue(row, 'relation') || 'Unknown';
+                const normalized = normalizeRelation(relation);
+                if (!grouped[normalized]) grouped[normalized] = { paid: 0, count: 0 };
+                grouped[normalized].paid += getNumericValue(row, 'paidAmount');
+                grouped[normalized].count++;
+            });
+
+            const sorted = Object.entries(grouped).sort((a, b) => b[1].paid - a[1].paid).slice(0, 6);
+            
+            const gradientColors = sorted.map((_, i) => {
+                const startHue = 170 + (i * 30 / 6);
+                const gradient = ctx.createLinearGradient(0, 0, 0, ctx.canvas.height);
+                gradient.addColorStop(0, `hsla(${startHue}, 80%, 60%, 0.9)`);
+                gradient.addColorStop(1, `hsla(${startHue + 30}, 90%, 45%, 0.9)`);
+                return gradient;
+            });
+
+            if (charts.group) charts.group.destroy();
+            charts.group = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: sorted.map(s => s[0]),
+                    datasets: [{
+                        label: 'Total Paid',
+                        data: sorted.map(s => s[1].paid),
+                        backgroundColor: sorted.map((s, i) => crossFilters.group === s[0] ? '#4f46e5' : gradientColors[i]),
+                        borderColor: '#4f46e5',
+                        borderWidth: sorted.map(s => crossFilters.group === s[0] ? 2 : 0),
+                        borderRadius: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    onClick: (e, elements) => {
+                        if (elements.length > 0) {
+                            const val = sorted[elements[0].index][0];
+                            applyCrossFilter('group', val);
+                        }
+                    },
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            callbacks: {
+                                label: (context) => {
+                                    const data = sorted[context.dataIndex][1];
+                                    return [`Paid: ${formatCurrency(data.paid)}`, `Claims: ${data.count}`];
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: { callback: (v) => formatCurrency(v) },
+                            grid: { color: '#f1f5f9' }
+                        },
+                        x: { grid: { display: false } }
+                    },
+                    onHover: (e, elements) => {
+                        e.native.target.style.cursor = elements.length ? 'pointer' : 'default';
+                    }
+                }
+            });
+        }
+
+        function updateHospitalChart() {
+            const ctx = document.getElementById('hospitalChart').getContext('2d');
+            const grouped = {};
+            
+            filteredData.forEach(row => {
+                const hospital = getValue(row, 'hospital') || 'Unknown';
+                if (!grouped[hospital]) grouped[hospital] = { paid: 0, count: 0 };
+                grouped[hospital].paid += getNumericValue(row, 'paidAmount');
+                grouped[hospital].count++;
+            });
+
+            const sorted = Object.entries(grouped).sort((a, b) => b[1].paid - a[1].paid).slice(0, 6);
+            
+            const gradientColors = sorted.map((_, i) => {
+                const startHue = 170 + (i * (30 / Math.max(sorted.length, 1)));
+                const gradient = ctx.createLinearGradient(0, 0, 0, ctx.canvas.height);
+                gradient.addColorStop(0, `hsla(${startHue}, 85%, 55%, 0.9)`);
+                gradient.addColorStop(1, `hsla(${startHue + 20}, 95%, 40%, 0.9)`);
+                return gradient;
+            });
+
+            if (charts.hospital) charts.hospital.destroy();
+            charts.hospital = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: sorted.map(s => s[0].length > 15 ? s[0].substring(0, 15) + '...' : s[0]),
+                    datasets: [{
+                        label: 'Total Paid',
+                        data: sorted.map(s => s[1].paid),
+                        backgroundColor: sorted.map((s, i) => crossFilters.hospital === s[0] ? '#0d9488' : gradientColors[i]),
+                        borderColor: '#0d9488',
+                        borderWidth: sorted.map(s => crossFilters.hospital === s[0] ? 2 : 0),
+                        borderRadius: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    onClick: (e, elements) => {
+                        if (elements.length > 0) {
+                            const hospital = sorted[elements[0].index][0];
+                            applyCrossFilter('hospital', hospital);
+                        }
+                    },
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            callbacks: {
+                                title: (items) => sorted[items[0].dataIndex][0],
+                                label: (context) => {
+                                    const data = sorted[context.dataIndex][1];
+                                    return [`Paid: ${formatCurrency(data.paid)}`, `Claims: ${data.count}`];
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: { callback: (v) => formatCurrency(v) },
+                            grid: { color: '#f1f5f9' }
+                        },
+                        x: { grid: { display: false } }
+                    },
+                    onHover: (e, elements) => {
+                        e.native.target.style.cursor = elements.length ? 'pointer' : 'default';
+                    }
+                }
+            });
+        }
+
+        function normalizeRelation(rel) {
+            if (!rel) return 'Unknown';
+            const r = String(rel).toLowerCase().trim().replace(/[\s\-_]+/g, '');
+            
+            if (r.includes('self') || r.includes('employee') || r === '1' || r.includes('proposer')) return 'Self';
+            if (r.includes('spouse') || r.includes('wife') || r.includes('husband') || r.includes('partner')) return 'Spouse';
+            if (r.includes('son')) return 'Son';
+            if (r.includes('daughter')) return 'Daughter';
+            if (r.includes('mother') && !r.includes('law')) return 'Mother';
+            if (r.includes('father') && !r.includes('law')) return 'Father';
+            if (r.includes('mother') && r.includes('law')) return 'Mother-in-law';
+            if (r.includes('father') && r.includes('law')) return 'Father-in-law';
+            
+            return rel.charAt(0).toUpperCase() + rel.slice(1).toLowerCase();
+        }
+
+        function generateInsights() {
+            const insights = [];
+            const totalPaid = filteredData.reduce((sum, r) => sum + getNumericValue(r, 'paidAmount'), 0);
+            
+            const inProcessClaims = filteredData.filter(r => isInProcess(r));
+            const outstandingAmount = inProcessClaims.reduce((sum, r) => {
+                return sum + getNumericValue(r, 'outstandingAmount');
+            }, 0);
+            
+            const premium = parseFloat(initialPremium) || 0;
+            const totalLiability = totalPaid + outstandingAmount;
+            const claimRatio = premium > 0 ? (totalLiability / premium * 100) : 0;
+            const hasPremium = premium > 0;
+            
+            const diseaseGroup = {};
+            filteredData.forEach(r => {
+                const disease = getValue(r, 'disease') || 'Unknown';
+                if (!diseaseGroup[disease]) diseaseGroup[disease] = 0;
+                diseaseGroup[disease] += getNumericValue(r, 'paidAmount');
+            });
+            const topDisease = Object.entries(diseaseGroup).sort((a, b) => b[1] - a[1])[0];
+            
+            const relationGroup = {};
+            filteredData.forEach(r => {
+                const g = getValue(r, 'relation') || 'Unknown';
+                const normalized = normalizeRelation(g);
+                if (!relationGroup[normalized]) relationGroup[normalized] = 0;
+                relationGroup[normalized] += getNumericValue(r, 'paidAmount');
+            });
+            const topRelation = Object.entries(relationGroup).sort((a, b) => b[1] - a[1])[0];
+            
+            if (hasPremium) {
+                if (claimRatio > 85) {
+                    insights.push({
+                        icon: 'fas fa-exclamation-triangle',
+                        color: 'red',
+                        title: 'High Claim Ratio',
+                        text: `Claim ratio is ${claimRatio.toFixed(1)}% (Critical)`
+                    });
+                } else if (claimRatio > 70) {
+                    insights.push({
+                        icon: 'fas fa-exclamation-circle',
+                        color: 'amber',
+                        title: 'Elevated Claim Ratio',
+                        text: `Claim ratio is ${claimRatio.toFixed(1)}% (Caution)`
+                    });
+                } else {
+                    insights.push({
+                        icon: 'fas fa-check-circle',
+                        color: 'green',
+                        title: 'Healthy Claim Ratio',
+                        text: `Claim ratio is ${claimRatio.toFixed(1)}% (Healthy)`
+                    });
+                }
+            }
+
+            if (topDisease) {
+                const pct = totalPaid > 0 ? ((topDisease[1]/totalPaid)*100).toFixed(1) : 0;
+                insights.push({
+                    icon: 'fas fa-disease',
+                    color: 'purple',
+                    title: 'Top Cost Driver',
+                    text: `${topDisease[0]}: ${formatCurrency(topDisease[1])} (${pct}%)`
+                });
+            }
+
+            if (topRelation) {
+                insights.push({
+                    icon: 'fas fa-users',
+                    color: 'blue',
+                    title: 'Top Relation',
+                    text: `${topRelation[0]}: ${formatCurrency(topRelation[1])} claims`
+                });
+            }
+
+            const settledClaims = filteredData.filter(r => isSettled(r));
+            const avgClaim = settledClaims.length > 0 ? 
+                settledClaims.reduce((sum, r) => sum + getNumericValue(r, 'paidAmount'), 0) / settledClaims.length : 0;
+            const highValueCount = settledClaims.filter(r => getNumericValue(r, 'paidAmount') > avgClaim * 3).length;
+            
+            if (highValueCount > 0) {
+                insights.push({
+                    icon: 'fas fa-chart-line',
+                    color: 'rose',
+                    title: 'Outlier Claims',
+                    text: `${highValueCount} claims > 3x avg (${formatCurrency(avgClaim)})`
+                });
+            }
+
+            if (outstandingAmount > 0) {
+                insights.push({
+                    icon: 'fas fa-clock',
+                    color: 'orange',
+                    title: 'Pending Liability',
+                    text: `${formatCurrency(outstandingAmount)} outstanding in ${inProcessClaims.length} claims`
+                });
+            }
+
+            const deniedClaims = filteredData.filter(r => isDenied(r));
+            if (deniedClaims.length > 0) {
+                const deniedAmount = deniedClaims.reduce((sum, r) => sum + getNumericValue(r, 'claimedAmount'), 0);
+                insights.push({
+                    icon: 'fas fa-ban',
+                    color: 'red',
+                    title: 'Denied Claims',
+                    text: `${deniedClaims.length} claims denied (${formatCurrency(deniedAmount)})`
+                });
+            }
+
+            // Add member data insight if available
+            if (memberData && memberData.type) {
+                if (memberData.type === 'full') {
+                    insights.push({
+                        icon: 'fas fa-chart-bar',
+                        color: 'purple',
+                        title: 'Full Member Analysis',
+                        text: `${memberData.data.length} sum insured brackets with distribution charts`
+                    });
+                } else if (memberData.type === 'livesOnly') {
+                    insights.push({
+                        icon: 'fas fa-users',
+                        color: 'blue',
+                        title: 'Lives Analysis Available',
+                        text: `View what % of employees filed claims`
+                    });
+                }
+            }
+
+            document.getElementById('insightsPanel').innerHTML = insights.map(insight => `
+                <div class="insight-card" style="border-left-color: var(--${insight.color})">
+                    <div class="flex items-start gap-2">
+                        <div class="w-6 h-6 rounded-lg bg-${insight.color}-100 flex items-center justify-center flex-shrink-0">
+                            <i class="${insight.icon} text-${insight.color}-600 text-xs"></i>
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <h4 class="font-bold text-gray-800 text-xs truncate">${insight.title}</h4>
+                            <p class="text-gray-600 text-[10px] mt-0.5 truncate">${insight.text}</p>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // ============ DRILL DOWN FUNCTIONS ============
+
+        function drillKPI(kpiType) {
+            const modal = document.getElementById('drillModal');
+            const title = document.getElementById('drillTitle');
+            const content = document.getElementById('drillContent');
+            
+            let drillData = [];
+            let drillHtml = '';
+            
+            // Use fullData for drill down (static KPIs)
+            switch(kpiType) {
+                case 'totalClaims':
+                    title.textContent = 'Total Claims Paid - Details';
+                    drillData = fullData
+                        .filter(r => isSettled(r))
+                        .sort((a, b) => getNumericValue(b, 'paidAmount') - getNumericValue(a, 'paidAmount'))
+                        .slice(0, 50);
+                    
+                    drillHtml = `
+                        <div class="overflow-x-auto">
+                            <table class="drill-table">
+                                <thead>
+                                    <tr>
+                                        <th>Claim ID</th>
+                                        <th>Employee</th>
+                                        <th>Disease</th>
+                                        <th class="text-right">Paid Amount</th>
+                                        <th>Hospital</th>
+                                        <th>Relation</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    ${drillData.map(row => `
+                                        <tr>
+                                            <td>${getValue(row, 'claimId') || '-'}</td>
+                                            <td>${getValue(row, 'employeeName') || getValue(row, 'employeeCode') || '-'}</td>
+                                            <td>${getValue(row, 'disease') || '-'}</td>
+                                            <td class="text-right font-medium">${formatCurrency(getNumericValue(row, 'paidAmount'))}</td>
+                                            <td>${getValue(row, 'hospital') || '-'}</td>
+                                            <td>${normalizeRelation(getValue(row, 'relation') || '-')}</td>
+                                        </tr>
+                                    `).join('')}
+                                </tbody>
+                            </table>
+                        </div>
+                        <p class="text-sm text-gray-600 mt-4">Showing ${drillData.length} of ${fullData.filter(r => isSettled(r)).length} settled claims</p>
+                    `;
+                    break;
+
+                case 'outstanding':
+                    title.textContent = 'Outstanding Claims - Details';
+                    drillData = fullData
+                        .filter(r => isInProcess(r))
+                        .sort((a, b) => getNumericValue(b, 'outstandingAmount') - getNumericValue(a, 'outstandingAmount'))
+                        .slice(0, 50);
+                    
+                    drillHtml = `
+                        <div class="overflow-x-auto">
+                            <table class="drill-table">
+                                <thead>
+                                    <tr>
+                                        <th>Claim ID</th>
+                                        <th>Employee</th>
+                                        <th>Disease</th>
+                                        <th class="text-right">Claimed</th>
+                                        <th class="text-right">Approved</th>
+                                        <th class="text-right">Paid</th>
+                                        <th class="text-right">Outstanding</th>
+                                        <th>Hospital</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    ${drillData.map(row => {
+                                        const claimed = getNumericValue(row, 'claimedAmount');
+                                        const approved = getNumericValue(row, 'totalAmount');
+                                        const paid = getNumericValue(row, 'paidAmount');
+                                        const outstanding = getNumericValue(row, 'outstandingAmount');
+                                        return `
+                                            <tr>
+                                                <td>${getValue(row, 'claimId') || '-'}</td>
+                                                <td>${getValue(row, 'employeeName') || getValue(row, 'employeeCode') || '-'}</td>
+                                                <td>${getValue(row, 'disease') || '-'}</td>
+                                                <td class="text-right">${formatCurrency(claimed)}</td>
+                                                <td class="text-right">${formatCurrency(approved)}</td>
+                                                <td class="text-right">${formatCurrency(paid)}</td>
+                                                <td class="text-right font-bold text-orange-600">${formatCurrency(outstanding)}</td>
+                                                <td>${getValue(row, 'hospital') || '-'}</td>
+                                            </tr>
+                                        `;
+                                    }).join('')}
+                                </tbody>
+                            </table>
+                        </div>
+                        <p class="text-sm text-gray-600 mt-4">Showing ${drillData.length} outstanding claims</p>
+                    `;
+                    break;
+
+                case 'payoutRatio':
+                    title.textContent = 'Payout Ratio Analysis';
+                    const totalClaimed = fullData.reduce((sum, r) => sum + getNumericValue(r, 'claimedAmount'), 0);
+                    const totalPaid = fullData.reduce((sum, r) => sum + getNumericValue(r, 'paidAmount'), 0);
+                    const payoutRatio = totalClaimed > 0 ? (totalPaid / totalClaimed * 100) : 0;
+                    
+                    drillHtml = `
+                        <div class="space-y-4">
+                            <div class="grid grid-cols-2 gap-4">
+                                <div class="bg-green-50 p-4 rounded-lg">
+                                    <p class="text-sm text-gray-600">Total Claimed</p>
+                                    <p class="text-xl font-bold text-gray-800">${formatCurrency(totalClaimed)}</p>
+                                </div>
+                                <div class="bg-blue-50 p-4 rounded-lg">
+                                    <p class="text-sm text-gray-600">Total Paid</p>
+                                    <p class="text-xl font-bold text-gray-800">${formatCurrency(totalPaid)}</p>
+                                </div>
+                            </div>
+                            
+                            <div class="bg-amber-50 p-4 rounded-lg">
+                                <p class="text-sm text-gray-600">Payout Ratio</p>
+                                <p class="text-2xl font-bold text-amber-600">${payoutRatio.toFixed(1)}%</p>
+                                <p class="text-xs text-gray-500 mt-1">Paid Amount ÷ Claimed Amount</p>
+                            </div>
+                            
+                            <div class="mt-4">
+                                <h4 class="font-semibold text-gray-700 mb-2">Top 10 Claims by Claimed Amount</h4>
+                                <div class="overflow-x-auto">
+                                    <table class="drill-table">
+                                        <thead>
+                                            <tr>
+                                                <th>Claim ID</th>
+                                                <th>Claimed</th>
+                                                <th>Paid</th>
+                                                <th>Payout %</th>
+                                                <th>Status</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            ${fullData
+                                                .map(r => ({
+                                                    id: getValue(r, 'claimId'),
+                                                    claimed: getNumericValue(r, 'claimedAmount'),
+                                                    paid: getNumericValue(r, 'paidAmount'),
+                                                    ratio: getNumericValue(r, 'claimedAmount') > 0 ? (getNumericValue(r, 'paidAmount') / getNumericValue(r, 'claimedAmount') * 100) : 0,
+                                                    status: isSettled(r) ? 'Settled' : isInProcess(r) ? 'In Process' : 'Denied'
+                                                }))
+                                                .sort((a, b) => b.claimed - a.claimed)
+                                                .slice(0, 10)
+                                                .map(item => `
+                                                    <tr>
+                                                        <td>${item.id || '-'}</td>
+                                                        <td class="text-right">${formatCurrency(item.claimed)}</td>
+                                                        <td class="text-right">${formatCurrency(item.paid)}</td>
+                                                        <td class="text-right ${item.ratio >= 100 ? 'text-green-600' : item.ratio >= 70 ? 'text-blue-600' : 'text-amber-600'}">${item.ratio.toFixed(1)}%</td>
+                                                        <td><span class="px-2 py-1 rounded text-xs ${item.status === 'Settled' ? 'bg-green-100 text-green-800' : item.status === 'In Process' ? 'bg-amber-100 text-amber-800' : 'bg-red-100 text-red-800'}">${item.status}</span></td>
+                                                    </tr>
+                                                `).join('')}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    break;
+
+                case 'avgClaim':
+                    title.textContent = 'Average Claim Analysis';
+                    const settledClaims = fullData.filter(r => isSettled(r));
+                    const paidAmounts = settledClaims.map(r => getNumericValue(r, 'paidAmount')).filter(v => v > 0).sort((a, b) => a - b);
+                    const avgClaim = paidAmounts.length > 0 ? paidAmounts.reduce((a, b) => a + b, 0) / paidAmounts.length : 0;
+                    const medianClaim = paidAmounts.length > 0 ? paidAmounts[Math.floor(paidAmounts.length / 2)] : 0;
+                    
+                    drillData = settledClaims
+                        .sort((a, b) => getNumericValue(b, 'paidAmount') - getNumericValue(a, 'paidAmount'));
+                    
+                    drillHtml = `
+                        <div class="space-y-4">
+                            <div class="grid grid-cols-3 gap-4">
+                                <div class="bg-blue-50 p-4 rounded-lg">
+                                    <p class="text-sm text-gray-600">Average</p>
+                                    <p class="text-xl font-bold text-gray-800">${formatCurrency(avgClaim)}</p>
+                                </div>
+                                <div class="bg-purple-50 p-4 rounded-lg">
+                                    <p class="text-sm text-gray-600">Median</p>
+                                    <p class="text-xl font-bold text-gray-800">${formatCurrency(medianClaim)}</p>
+                                </div>
+                                <div class="bg-green-50 p-4 rounded-lg">
+                                    <p class="text-sm text-gray-600">Settled Claims</p>
+                                    <p class="text-xl font-bold text-gray-800">${settledClaims.length}</p>
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <h4 class="font-semibold text-gray-700 mb-2">Top 20 Settled Claims by Amount</h4>
+                                <div class="overflow-x-auto">
+                                    <table class="drill-table">
+                                        <thead>
+                                            <tr>
+                                                <th>Rank</th>
+                                                <th>Claim ID</th>
+                                                <th>Employee</th>
+                                                <th class="text-right">Amount</th>
+                                                <th>Disease</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            ${drillData.slice(0, 20).map((row, index) => `
+                                                <tr>
+                                                    <td class="text-center">${index + 1}</td>
+                                                    <td>${getValue(row, 'claimId') || '-'}</td>
+                                                    <td>${getValue(row, 'employeeName') || getValue(row, 'employeeCode') || '-'}</td>
+                                                    <td class="text-right font-medium ${getNumericValue(row, 'paidAmount') > avgClaim * 3 ? 'text-red-600' : 'text-gray-800'}">${formatCurrency(getNumericValue(row, 'paidAmount'))}</td>
+                                                    <td>${getValue(row, 'disease') || '-'}</td>
+                                                </tr>
+                                            `).join('')}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    break;
+
+                case 'highValue':
+                    title.textContent = 'High Value Claims Analysis';
+                    const highValueThreshold = 100000;
+                    const highValueData = fullData
+                        .filter(r => isSettled(r) && getNumericValue(r, 'paidAmount') > highValueThreshold)
+                        .sort((a, b) => getNumericValue(b, 'paidAmount') - getNumericValue(a, 'paidAmount'));
+                    
+                    drillHtml = `
+                        <div class="space-y-4">
+                            <div class="bg-red-50 p-4 rounded-lg">
+                                <p class="text-sm text-gray-600">High Value Claims (Above ₹1L)</p>
+                                <p class="text-2xl font-bold text-red-600">${highValueData.length} claims</p>
+                                <p class="text-xs text-gray-500 mt-1">${((highValueData.length / Math.max(fullData.filter(r => isSettled(r)).length, 1)) * 100).toFixed(1)}% of settled claims</p>
+                            </div>
+                            
+                            <div>
+                                <h4 class="font-semibold text-gray-700 mb-2">High Value Claims Details</h4>
+                                <div class="overflow-x-auto">
+                                    <table class="drill-table">
+                                        <thead>
+                                            <tr>
+                                                <th>Claim ID</th>
+                                                <th>Employee</th>
+                                                <th class="text-right">Amount</th>
+                                                <th>Disease</th>
+                                                <th>Hospital</th>
+                                                <th>Relation</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            ${highValueData.map(row => `
+                                                <tr>
+                                                    <td>${getValue(row, 'claimId') || '-'}</td>
+                                                    <td>${getValue(row, 'employeeName') || getValue(row, 'employeeCode') || '-'}</td>
+                                                    <td class="text-right font-bold text-red-600">${formatCurrency(getNumericValue(row, 'paidAmount'))}</td>
+                                                    <td>${getValue(row, 'disease') || '-'}</td>
+                                                    <td>${getValue(row, 'hospital') || '-'}</td>
+                                                    <td>${normalizeRelation(getValue(row, 'relation') || '-')}</td>
+                                                </tr>
+                                            `).join('')}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    break;
+
+                case 'claimRatio':
+                    title.textContent = 'Claim Ratio Analysis';
+                    const premium = parseFloat(initialPremium) || 0;
+                    const totalPaidClaim = fullData.reduce((sum, r) => sum + getNumericValue(r, 'paidAmount'), 0);
+                    const inProcess = fullData.filter(r => isInProcess(r));
+                    const outstanding = inProcess.reduce((sum, r) => sum + getNumericValue(r, 'outstandingAmount'), 0);
+                    const totalLiabilityClaim = totalPaidClaim + outstanding;
+                    const claimRatioValue = premium > 0 ? (totalLiabilityClaim / premium * 100) : 0;
+                    
+                    drillHtml = `
+                        <div class="space-y-4">
+                            <div class="grid grid-cols-2 gap-4">
+                                <div class="bg-green-50 p-4 rounded-lg">
+                                    <p class="text-sm text-gray-600">Premium Amount</p>
+                                    <p class="text-xl font-bold text-gray-800">${formatCurrency(premium)}</p>
+                                </div>
+                                <div class="bg-red-50 p-4 rounded-lg">
+                                    <p class="text-sm text-gray-600">Total Liability</p>
+                                    <p class="text-xl font-bold text-gray-800">${formatCurrency(totalLiabilityClaim)}</p>
+                                </div>
+                            </div>
+                            
+                            <div class="grid grid-cols-2 gap-4">
+                                <div class="bg-blue-50 p-4 rounded-lg">
+                                    <p class="text-sm text-gray-600">Paid Amount</p>
+                                    <p class="text-lg font-semibold text-gray-800">${formatCurrency(totalPaidClaim)}</p>
+                                </div>
+                                <div class="bg-orange-50 p-4 rounded-lg">
+                                    <p class="text-sm text-gray-600">Outstanding</p>
+                                    <p class="text-lg font-semibold text-gray-800">${formatCurrency(outstanding)}</p>
+                                </div>
+                            </div>
+                            
+                            <div class="bg-amber-50 p-4 rounded-lg">
+                                <p class="text-sm text-gray-600">Claim Ratio</p>
+                                <p class="text-2xl font-bold text-amber-600">${claimRatioValue.toFixed(1)}%</p>
+                                <p class="text-xs text-gray-500 mt-1">(Total Liability ÷ Premium) × 100</p>
+                                <p class="text-xs text-gray-500">Status: ${claimRatioValue <= 70 ? 'Healthy' : claimRatioValue <= 85 ? 'Caution' : 'Critical'}</p>
+                            </div>
+                        </div>
+                    `;
+                    break;
+
+                default:
+                    title.textContent = 'Detailed View';
+                    drillHtml = '<p class="text-gray-500">Detailed data would appear here.</p>';
+            }
+            
+            content.innerHTML = drillHtml;
+            modal.classList.add('show');
+        }
+
+        function closeDrillModal() {
+            document.getElementById('drillModal').classList.remove('show');
+        }
+
+        function closeAIClaimModal() {
+            document.getElementById('aiClaimModal').classList.remove('show');
+        }
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                closeDrillModal();
+                closeAIClaimModal();
+            }
+            if (e.ctrlKey && e.key === 'r') {
+                e.preventDefault();
+                resetFilters();
+            }
+        });
+    </script>
+</body>
+</html>
